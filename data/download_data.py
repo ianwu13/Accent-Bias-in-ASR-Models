@@ -16,6 +16,7 @@ def main():
 
     # TODO: START
     # HOW SAVING THIS DATA? NEED TO CHECK TRANSCRIPTIONS? SAVING AUDIO AS .wav?
+    # check how to get samples without audio? test methods for audio downsampling
     cv_16 = load_dataset("mozilla-foundation/common_voice_16_1", "en", split="train", streaming=True)
     ds = [next(iter(cv_16)) for i in range(N_SAMPLES)]
     true_words = [s['sentence'] for s in ds]

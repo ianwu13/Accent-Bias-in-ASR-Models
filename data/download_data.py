@@ -1,41 +1,70 @@
+import copy
 import pandas as pd
 from datasets import load_dataset
 from scipy import signal
+import wav
 
 from huggingface_hub import login
 
 
 VALID_SAMPLES_PATH = 'common_voice_16/preprocessed_tabular/validated.tsv'
+AUDIO_FILE_DIR = 'common_voice_16/audio'
 
 
 def main():
-    # Log into Hugging Face for data access
+    # Log into Hugging Face for data access - You will need an access token for this
     login()
 
     valid_samples = pd.read_csv(VALID_SAMPLES_PATH, sep='\t')
 
-    # TODO: START
-    # HOW SAVING THIS DATA? NEED TO CHECK TRANSCRIPTIONS? SAVING AUDIO AS .wav?
-    # check how to get samples without audio? test methods for audio downsampling
-    cv_16 = load_dataset("mozilla-foundation/common_voice_16_1", "en", split="train", streaming=True)
-    ds = [next(iter(cv_16)) for i in range(N_SAMPLES)]
-    true_words = [s['sentence'] for s in ds]
-    accents = [s['accent'] for s in ds]
+    # Make sure directories exist to save files
+    for sub_dir in ['not_found', 'match_found', 'multi_match']:
+        sd_pth = '/'.join([AUDIO_FILE_DIR, sub_dir])
+        if not os.path.exists(sd_pth):
+            os.makedirs(sd_pth)
 
-    # Convert to proper sampling rate
-    sr = processor.feature_extractor.sampling_rate
-    audio_sr = ds[0]["audio"]["sampling_rate"]
-    assert audio_sr > sr, 'Sampling rate of input audio must be larger than models sampling rate to be converted properly'
-    audio_arr = ds[0]["audio"]["array"]
-    if audio_sr != sr:
-        sr_ratio = audio_sr / sr
-        if sr_ratio.is_integer():
-            print('Decimating...')
-            audio_arr = signal.decimate(audio_arr, int(sr_ratio))
-        else:
-            samples_resamp = int(len(audio_arr) / audio_sr * sr)
-            audio_arr = signal.resample(audio_arr, samples_resamp)
-    # TODO: END
+    # Track matches for our csv and hf samples
+    not_present_list = []
+    present_df = pd.DataFrame()
+    multi_match_df = pd.DataFrame()
+
+    splits = ['train', 'validation', 'test', 'other']
+    for s in splits:
+        cv_16_split = load_dataset("mozilla-foundation/common_voice_16_1", "en", split=s, streaming=True)
+
+        for sample in cv_16_split:
+            client_id = sample['client_id']
+            sentence = sample['sentence']
+            accent = sample['accent']
+
+            audio_array = sample['audio']['array']
+            sample_rate = sample['audio']['sampling_rate']
+            wav_path = sample['audio']['path'].split('/')[-1]
+
+            matching_rows = valid_samples[(valid_samples['client_id'] == client_id) & (valid_samples['sentence'] == sentence) & (valid_samples['accents'] == accent)]
+            if len(matching_rows) == 0:
+                # Remove audio array to save other sample info
+                save_sample = copy.copy(sample)
+                _ = save_sample['audio'].pop('array')
+                not_present_list.append(save_sample)
+                
+                wav_path = '/',join([AUDIO_FILE_DIR, 'not_found', wav_path])
+            elif len(matching_rows) == 1:
+                present_df = pd.concat([present_df, matching_rows])
+                wav_path = '/',join([AUDIO_FILE_DIR, 'match_found', wav_path])
+            else:
+                multi_match_df = pd.concat([multi_match_df, matching_rows])
+                wav_path = '/',join([AUDIO_FILE_DIR, 'multi_match', wav_path])
+
+            # Save waveform to file
+            with wave.open(wav_path, 'w') as f:
+                f.setparams((1, 2, sample_rate, audio_array.size, 'NONE', ''))
+                f.writeframes((audio_array * (2 ** 15 - 1)).astype("<h").tobytes())
+            
+        # Save match tracking files
+        json.dump(not_present_df, open('/'.join([AUDIO_FILE_DIR, 'not_found.json']), 'w'))
+        present_df.to_csv('/'.join([AUDIO_FILE_DIR, 'match_found.json']))
+        multi_match_df.to_csv('/'.join([AUDIO_FILE_DIR, 'multi_match.json']))
 
 
 if __name__ == '__main__':

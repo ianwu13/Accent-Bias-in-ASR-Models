@@ -53,7 +53,9 @@ def main():
             else:
                 multi_match_df = pd.concat([multi_match_df, matching_rows])
                 wav_path = '/',join([AUDIO_FILE_DIR, 'multi_match', wav_path])
-
+            
+            # Record save path to valid samples
+            valid_samples.loc[(valid_samples['client_id'] == client_id) & (valid_samples['sentence'] == sentence) & (valid_samples['accents'] == accent), 'save_path'] = wav_path
             # Save waveform to file
             with wave.open(wav_path, 'w') as f:
                 f.setparams((1, 2, sample_rate, audio_array.size, 'NONE', ''))
@@ -61,8 +63,9 @@ def main():
             
     # Save match tracking files
     json.dump(not_present_df, open('/'.join([AUDIO_FILE_DIR, 'not_found.json']), 'w'))
-    present_df.to_csv('/'.join([AUDIO_FILE_DIR, 'match_found.json']))
-    multi_match_df.to_csv('/'.join([AUDIO_FILE_DIR, 'multi_match.json']))
+    present_df.to_csv('/'.join([AUDIO_FILE_DIR, 'match_found.tsv']), sep='\t')
+    multi_match_df.to_csv('/'.join([AUDIO_FILE_DIR, 'multi_match.tsv']), sep='\t')
+    valid_samples.to_csv('/'.join([AUDIO_FILE_DIR, 'valid_samples_ref.tsv']), sep='\t')
 
 
 if __name__ == '__main__':

@@ -1,10 +1,8 @@
 import copy
 import pandas as pd
-from datasets import load_dataset
-from scipy import signal
-import wav
-
 from huggingface_hub import login
+from datasets import load_dataset
+import wav
 
 
 VALID_SAMPLES_PATH = 'common_voice_16/preprocessed_tabular/validated.tsv'

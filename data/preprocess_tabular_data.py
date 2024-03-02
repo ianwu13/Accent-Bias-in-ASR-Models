@@ -18,7 +18,7 @@ def map_accent_groups(df: pd.DataFrame()) -> pd.DataFrame():
     df = df.drop(df[df['accents'].isin(valid_accent_labels)].index)
 
     # Map accent labels to groups
-    df['accents'] = df['accents'].map(lambda a: accents_map[a])
+    df['accent_group'] = df['accents'].map(lambda a: accents_map[a])
 
     return df
 
@@ -40,7 +40,7 @@ def main():
     # Approximately 14385 Samples with Accent Annotations ((1-0.965)*411000)
     df = df.drop(df[df['accents'].isna()].index)
     df = map_accent_groups(df)
-    df['sentence'] = df['sentence'].map(preprocess_text)
+    df['preprocessed_sentence'] = df['sentence'].map(preprocess_text)
 
     OUTPUT_PATH.to_csv(filtered_path, sep='\t', index=False)
 

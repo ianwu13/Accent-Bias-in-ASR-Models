@@ -36,6 +36,7 @@ def preprocess_text(text: str) -> str:
 
 def main():
     df = pd.read_csv(UNPROCESSED_FILE, sep='\t')
+    df.drop(df[df['accents'].isna()].index, inplace=True)
     
     # Approximately 14385 Samples with Accent Annotations ((1-0.965)*411000)
     df = df.drop(df[df['accents'].isna()].index)

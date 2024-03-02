@@ -61,10 +61,10 @@ def main():
                 f.setparams((1, 2, sample_rate, audio_array.size, 'NONE', ''))
                 f.writeframes((audio_array * (2 ** 15 - 1)).astype("<h").tobytes())
             
-        # Save match tracking files
-        json.dump(not_present_df, open('/'.join([AUDIO_FILE_DIR, 'not_found.json']), 'w'))
-        present_df.to_csv('/'.join([AUDIO_FILE_DIR, 'match_found.json']))
-        multi_match_df.to_csv('/'.join([AUDIO_FILE_DIR, 'multi_match.json']))
+    # Save match tracking files
+    json.dump(not_present_df, open('/'.join([AUDIO_FILE_DIR, 'not_found.json']), 'w'))
+    present_df.to_csv('/'.join([AUDIO_FILE_DIR, 'match_found.json']))
+    multi_match_df.to_csv('/'.join([AUDIO_FILE_DIR, 'multi_match.json']))
 
 
 if __name__ == '__main__':

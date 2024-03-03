@@ -41,18 +41,19 @@ def main():
 
             matching_rows = valid_samples[(valid_samples['client_id'] == client_id) & (valid_samples['sentence'] == sentence) & (valid_samples['accents'] == accent)]
             if len(matching_rows) == 0:
+                wav_path = '/',join([AUDIO_FILE_DIR, 'not_found', wav_path])
+                
                 # Remove audio array to save other sample info
                 save_sample = copy.copy(sample)
                 _ = save_sample['audio'].pop('array')
                 not_present_list.append(save_sample)
-                
-                wav_path = '/',join([AUDIO_FILE_DIR, 'not_found', wav_path])
             elif len(matching_rows) == 1:
-                present_df = pd.concat([present_df, matching_rows])
                 wav_path = '/',join([AUDIO_FILE_DIR, 'match_found', wav_path])
+                present_df = pd.concat([present_df, matching_rows])
             else:
-                multi_match_df = pd.concat([multi_match_df, matching_rows])
                 wav_path = '/',join([AUDIO_FILE_DIR, 'multi_match', wav_path])
+                matching_rows['save_path'] = wav_path
+                multi_match_df = pd.concat([multi_match_df, matching_rows])
             
             # Record save path to valid samples
             valid_samples.loc[(valid_samples['client_id'] == client_id) & (valid_samples['sentence'] == sentence) & (valid_samples['accents'] == accent), 'save_path'] = wav_path

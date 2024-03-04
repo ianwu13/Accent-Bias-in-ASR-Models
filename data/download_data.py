@@ -2,7 +2,7 @@ import copy
 import pandas as pd
 from huggingface_hub import login
 from datasets import load_dataset
-import wav
+import wave
 
 
 VALID_SAMPLES_PATH = 'common_voice_16/preprocessed_tabular/validated.tsv'

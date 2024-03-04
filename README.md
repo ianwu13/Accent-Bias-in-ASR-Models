@@ -15,9 +15,6 @@ This script is redundant to `preprocess_tabular_data.py`, which also performs fi
 ### `download_data.py.py`
 Downloads audio files only for valid samples (those with selected accent labels). Valid samples are provided from a .tsv file. Samples is retrieved from the HuggingFace Hub, then cross referenced with the file before being saved as a .wav file.
 
-### `create_agglomerative_samples.py`
-TODO
-
 ## Transcription
 
 ## Evaluation

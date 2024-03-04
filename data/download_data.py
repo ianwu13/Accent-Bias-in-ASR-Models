@@ -64,9 +64,9 @@ def main():
             
     # Save match tracking files
     json.dump(not_present_df, open('/'.join([AUDIO_FILE_DIR, 'not_found.json']), 'w'))
-    present_df.to_csv('/'.join([AUDIO_FILE_DIR, 'match_found.tsv']), sep='\t')
-    multi_match_df.to_csv('/'.join([AUDIO_FILE_DIR, 'multi_match.tsv']), sep='\t')
-    valid_samples.to_csv('/'.join([AUDIO_FILE_DIR, 'valid_samples_ref.tsv']), sep='\t')
+    present_df.to_csv('/'.join([AUDIO_FILE_DIR, 'match_found.tsv']), sep='\t', index=False)
+    multi_match_df.to_csv('/'.join([AUDIO_FILE_DIR, 'multi_match.tsv']), sep='\t', index=False)
+    valid_samples.to_csv('/'.join([AUDIO_FILE_DIR, 'valid_samples_ref.tsv']), sep='\t', index=False)
 
 
 if __name__ == '__main__':

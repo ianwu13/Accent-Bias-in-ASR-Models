@@ -55,8 +55,10 @@ def main():
                 matching_rows['save_path'] = wav_path
                 multi_match_df = pd.concat([multi_match_df, matching_rows])
             
-            # Record save path to valid samples
+            # Record save path and sr to valid samples
             valid_samples.loc[(valid_samples['client_id'] == client_id) & (valid_samples['sentence'] == sentence) & (valid_samples['accents'] == accent), 'save_path'] = wav_path
+            valid_samples.loc[(valid_samples['client_id'] == client_id) & (valid_samples['sentence'] == sentence) & (valid_samples['accents'] == accent), 'sample_rate'] = sample_rate
+
             # Save waveform to file
             with wave.open(wav_path, 'w') as f:
                 f.setparams((1, 2, sample_rate, audio_array.size, 'NONE', ''))

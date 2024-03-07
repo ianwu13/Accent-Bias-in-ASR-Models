@@ -1,5 +1,9 @@
 # Accent-Bias-in-ASR-Models
 
+TODO: GENERAL DESCRIPTION
+
+***
+
 ## Data Processing
 Data preprocessing scripts are contained in the `data` directory. This directory should also be used to store the actual dataset. Scripts use globals for pathing, as the directory structure is assumed to be static. These can easily be altered to apply these scripts to alternative data/directory structures, however.
 
@@ -15,6 +19,27 @@ This script is redundant to `preprocess_tabular_data.py`, which also performs fi
 ### `download_data.py.py`
 Downloads audio files only for valid samples (those with selected accent labels). Valid samples are provided from a .tsv file. Samples is retrieved from the HuggingFace Hub, then cross referenced with the file before being saved as a .wav file.
 
+***
+
 ## Transcription
+3 scripts are provied to transcribe audio samples with different ASR models. These scripts accept similar arguments, briefly described below, but `python3 <SCRIPT>.py --help` should be called for more detailed descriptions.
+
+### `transcribe_cv16_whisper.py`
+Transcribes the dataset specified with the "--dataset" argument using OpenAI's Whisper model. Different variations of the Whisper model (e.g., large, base, base.en, etc.) can be specified with the "--model" argument.
+
+### `transcribe_cv16_wav2vec2.py`
+Performs transcription using Facebook/Meta's's Wav2Vec2 model. Different variations of the Wav2Vec2 model (e.g., large, base, etc.) can be specified with the "--model" argument.
+
+### `transcribe_cv16_canary.py`
+This Script is used to run transcription of the dataset using Nvidia's Canary-1B Model. This model required the use of the NeMo Package to be run, which can be installed along with its dependencies suing the following commands:
+```
+pip install git+https://github.com/NVIDIA/NeMo.git
+pip install hydra-core pytorch-lightning lhotse jiwer pyannote.audio webdataset datasets
+```
+
+### `transcribe_agglomerative_samples.py`
+TODO
+
+***
 
 ## Evaluation

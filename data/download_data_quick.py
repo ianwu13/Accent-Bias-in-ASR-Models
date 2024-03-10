@@ -1,9 +1,6 @@
-import copy
-import pandas as pd
-from huggingface_hub import login
-from datasets import load_dataset
-import wave
+import os
 import requests
+import pandas as pd
 import librosa
 
 
@@ -25,7 +22,7 @@ def query(url):
 
 def save_and_get_sample_rate(audio_url, save_path):
     # Fetch the audio file from the URL
-    response = requests.get(url)
+    response = requests.get(audio_url, headers=HEADERS)
     
     if response.status_code == 200:
         # Save the audio content to a temporary file
@@ -68,17 +65,16 @@ def process_batch(batch, valid_accents, accents_map, audio_dir):
 
 def download_split(dataset_path, split, valid_accents, accents_map):
     base_url = f'https://datasets-server.huggingface.co/rows?dataset={dataset_path}&config=en&split={split}'
-    # base_url = f"https://datasets-server.huggingface.co/rows?dataset={dataset_path}&config=en&split={split}&offset=16300&length=99"
     split_sample_count = query('&'.join([base_url, 'length=1']))['num_rows_total']
     audio_dir = '/'.join([OUTPUT_DIR, split])
 
     rows = []
     offset = 0
     while offset <= split_sample_count:
-        batch_url = '&'.join([split_sample_count, f'offset={offset}', f'length={DOWNLOAD_BATCH_SIZE}'])
+        batch_url = '&'.join([base_url, f'offset={offset}', f'length={DOWNLOAD_BATCH_SIZE}'])
 
         batch = query(batch_url)
-        new_rows = process_batch(rows, valid_accents, accents_map, audio_dir)
+        new_rows = process_batch(batch, valid_accents, accents_map, audio_dir)
         rows.extend(new_rows)
 
         offset += DOWNLOAD_BATCH_SIZE
@@ -95,8 +91,8 @@ def main():
 
     for split in SPLITS:
         split_dir_pth = '/'.join([OUTPUT_DIR, split])
-        if not os.path.exists(sd_pth):
-            os.makedirs(sd_pth)
+        if not os.path.exists(split_dir_pth):
+            os.makedirs(split_dir_pth)
 
         split_df = download_split(DATASET_PATH, split, valid_accents, accents_map)
         # Save data to tsv file

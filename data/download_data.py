@@ -1,81 +1,108 @@
-import copy
+import os
+import requests
 import pandas as pd
-from huggingface_hub import login
-from datasets import load_dataset
-import wave
+import librosa
 
 
-VALID_SAMPLES_PATH = 'common_voice_16/preprocessed_tabular/validated.tsv'
-AUDIO_FILE_DIR = 'common_voice_16/audio'
 ACCENTS_MAP_PATH = 'accents_map.json'
+DATASET_PATH = 'mozilla-foundation/common_voice_16_1'
+SPLITS = ['train', 'validation', 'test', 'other']
+OUTPUT_DIR = 'cv16'
+
+# Log into Hugging Face for data access - You will need an access token for this
+API_TOKEN = 'FILL'  # TODO
+HEADERS = {"Authorization": f"Bearer {API_TOKEN}"}
+DOWNLOAD_BATCH_SIZE = 99
+
+
+def query(url):
+    response = requests.get(url, headers=HEADERS)
+    return response.json()
+
+
+def save_and_get_sample_rate(audio_url, save_path):
+    # Fetch the audio file from the URL
+    response = requests.get(audio_url, headers=HEADERS)
+    
+    if response.status_code == 200:
+        # Save the audio content to a temporary file
+        with open(save_path, "wb") as f:
+            f.write(response.content)
+        
+        # Load the audio file and get the audio data and sample rate
+        _, sample_rate = librosa.load("temp_audio.wav", sr=None)
+        return sample_rate
+    else:
+        print("Failed to fetch audio file")
+        return 0
+
+
+def process_batch(batch, valid_accents, accents_map, audio_dir):
+    samples = batch['rows']
+    new_rows = []
+    for s in samples:
+        row = s['row']
+
+        # Ignore invalid rows (bad accent label)
+        if row['accent'] not in accents_map:
+            continue
+        # Otherwise process row
+        row['row_idx'] = s['row_idx']
+        row['accent_group'] = accents_map[row['accent']]
+        audio_data = row.pop('audio')
+
+        # save audio and record sample_rate
+        save_path = '/'.join([audio_dir, row['path'].split('/')[-1]])
+        sample_rate = save_and_get_sample_rate(audio_data[0]['src'], save_path)
+        
+        row['save_path'] = save_path
+        row['sample_rate'] = sample_rate
+
+        new_rows.append(row)
+
+    return new_rows
+
+
+def download_split(dataset_path, split, valid_accents, accents_map):
+    base_url = f'https://datasets-server.huggingface.co/rows?dataset={dataset_path}&config=en&split={split}'
+    split_sample_count = query('&'.join([base_url, 'length=1']))['num_rows_total']
+    audio_dir = '/'.join([OUTPUT_DIR, split])
+
+    rows = []
+    offset = 0
+    while offset <= split_sample_count:
+        batch_url = '&'.join([base_url, f'offset={offset}', f'length={DOWNLOAD_BATCH_SIZE}'])
+
+        batch = query(batch_url)
+        new_rows = process_batch(batch, valid_accents, accents_map, audio_dir)
+        rows.extend(new_rows)
+
+        offset += DOWNLOAD_BATCH_SIZE
+    
+    df = pd.DataFrame.from_records(rows)
+    return df
 
 
 def main():
-    # Log into Hugging Face for data access - You will need an access token for this
-    login()
 
-    valid_samples = pd.read_csv(VALID_SAMPLES_PATH, sep='\t')
+    # Get list of valid accents
     accents_map = json.load(open(ACCENTS_MAP_PATH, 'r'))
     valid_accents = set(accents_map.keys())
 
-    # Make sure directories exist to save files
-    for sub_dir in ['not_found', 'match_found', 'multi_match']:
-        sd_pth = '/'.join([AUDIO_FILE_DIR, sub_dir])
-        if not os.path.exists(sd_pth):
-            os.makedirs(sd_pth)
+    all_data_df = pd.DataFrame()
 
-    # Track matches for our csv and hf samples
-    valid_samples_hf = []
-    not_present_list = []
-    present_df = pd.DataFrame()
-    multi_match_df = pd.DataFrame()
+    for split in SPLITS:
+        split_dir_pth = '/'.join([OUTPUT_DIR, split])
+        if not os.path.exists(split_dir_pth):
+            os.makedirs(split_dir_pth)
 
-    splits = ['train', 'validation', 'test', 'other']
-    for s in splits:
-        cv_16_split = load_dataset("mozilla-foundation/common_voice_16_1", "en", split=s, streaming=True)
+        split_df = download_split(DATASET_PATH, split, valid_accents, accents_map)
+        # Save data to tsv file
+        split_df.to_csv('/'.join([OUTPUT_DIR, f'{split}.tsv']), sep='\t', index=False)
+        # Combine all data into one file
+        all_data_df = pd.concat([all_data_df, split_df])
 
-        for sample in cv_16_split:
-            client_id = sample['client_id']
-            sentence = sample['sentence']
-            accent = sample['accent']
-            if accent in valid_accents:
-                audio_array = sample['audio']['array']
-                sample_rate = sample['audio']['sampling_rate']
-                wav_path = sample['audio']['path'].split('/')[-1]
-
-                # Remove audio array to save other sample info
-                save_sample = copy.copy(sample)
-                _ = save_sample['audio'].pop('array')
-                valid_samples_hf.append(save_sample)
-
-                matching_rows = valid_samples[(valid_samples['client_id'] == client_id) & (valid_samples['sentence'] == sentence) & (valid_samples['accents'] == accent)]
-                if len(matching_rows) == 0:
-                    wav_path = '/',join([AUDIO_FILE_DIR, 'not_found', wav_path])
-                    
-                    not_present_list.append(save_sample)
-                elif len(matching_rows) == 1:
-                    wav_path = '/',join([AUDIO_FILE_DIR, 'match_found', wav_path])
-                    present_df = pd.concat([present_df, matching_rows])
-                else:
-                    wav_path = '/',join([AUDIO_FILE_DIR, 'multi_match', wav_path])
-                    matching_rows['save_path'] = wav_path
-                    multi_match_df = pd.concat([multi_match_df, matching_rows])
-                
-                # Record save path and sr to valid samples
-                valid_samples.loc[(valid_samples['client_id'] == client_id) & (valid_samples['sentence'] == sentence) & (valid_samples['accents'] == accent), 'save_path'] = wav_path
-                valid_samples.loc[(valid_samples['client_id'] == client_id) & (valid_samples['sentence'] == sentence) & (valid_samples['accents'] == accent), 'sample_rate'] = sample_rate
-
-                # Save waveform to file
-                with wave.open(wav_path, 'w') as f:
-                    f.setparams((1, 2, sample_rate, audio_array.size, 'NONE', ''))
-                    f.writeframes((audio_array * (2 ** 15 - 1)).astype("<h").tobytes())
-            
-    # Save match tracking files
-    json.dump(valid_samples_hf, open('/'.join([AUDIO_FILE_DIR, 'valid_hf_samples.json']), 'w'))
-    json.dump(not_present_df, open('/'.join([AUDIO_FILE_DIR, 'not_found.json']), 'w'))
-    present_df.to_csv('/'.join([AUDIO_FILE_DIR, 'match_found.tsv']), sep='\t', index=False)
-    multi_match_df.to_csv('/'.join([AUDIO_FILE_DIR, 'multi_match.tsv']), sep='\t', index=False)
-    valid_samples.to_csv('/'.join([AUDIO_FILE_DIR, 'valid_samples_ref.tsv']), sep='\t', index=False)
+    all_data_df.to_csv('/'.join([OUTPUT_DIR, f'all.tsv']), sep='\t', index=False)
 
 
 if __name__ == '__main__':

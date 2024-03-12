@@ -58,7 +58,7 @@ def transcribe_samples(
 
 
 def main():
-    parser = argparse.ArgumentParser(description='selfplaying script')
+    parser = argparse.ArgumentParser(description="Transcribe audio files with Facebook's wav2vec2 Model")
     model_choices = [
         # Wav2Vec Models (Facebook/Meta)
         'facebook/wav2vec2-large-xlsr-53',  # https://huggingface.co/facebook/wav2vec2-large-xlsr-53

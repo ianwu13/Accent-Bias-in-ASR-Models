@@ -54,7 +54,7 @@ def transcribe_samples(
 
 
 def main():
-    parser = argparse.ArgumentParser(description='selfplaying script')
+    parser = argparse.ArgumentParser(description="Transcribe audio files with OpenAI's Whisper Model")
     model_choices = [
         # Whisper Models (OpenAI)
         'openai/whisper-large-v2',  # https://huggingface.co/openai/whisper-large-v2

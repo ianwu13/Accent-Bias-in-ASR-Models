@@ -16,11 +16,11 @@ Preprocesses the original tsv file containing all dataset samples (excluding act
 ### `filter_for_accent.py`
 This script is redundant to `preprocess_tabular_data.py`, which also performs filtering. However, this script was used to help facilitate the design of our experimental setup and for determining accent groups to be used.
 
-### `download_data.py`
-Downloads audio files only for valid samples (those with selected accent labels). Valid samples are provided from a .tsv file. Samples is retrieved from the HuggingFace Hub, then cross referenced with the file before being saved as a .wav file.
+### `download_data_ref_file.py`
+Downloads audio files only for valid samples (those with selected accent labels), which are stored in a reference file. Valid samples are provided from a .tsv file. Samples is retrieved from the HuggingFace Hub, then cross referenced with the file before being saved as a .wav file.
 
-### `download_data_quick.py`
-A variation of `download_data.py` which only downloads audio samples for valid rows. This script does not reference a valid samples files, but may be preferable if computational resources are limited.
+### `download_data.py`
+A variation of `download_data_ref_file.py` which only downloads audio samples for valid rows. This script does not reference a valid samples files, but may be preferable if computational resources are limited.
 
 ***
 

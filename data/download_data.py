@@ -1,18 +1,14 @@
 import os
 import requests
+import argparse
 import pandas as pd
 import librosa
 
 
-ACCENTS_MAP_PATH = 'accents_map.json'
+# Dataset specific, should not change
 DATASET_PATH = 'mozilla-foundation/common_voice_16_1'
 SPLITS = ['train', 'validation', 'test', 'other']
-OUTPUT_DIR = 'cv16'
-
-# Log into Hugging Face for data access - You will need an access token for this
-API_TOKEN = 'FILL'  # TODO
-HEADERS = {"Authorization": f"Bearer {API_TOKEN}"}
-DOWNLOAD_BATCH_SIZE = 99
+HEADERS = None
 
 
 def query(url):
@@ -63,46 +59,64 @@ def process_batch(batch, valid_accents, accents_map, audio_dir):
     return new_rows
 
 
-def download_split(dataset_path, split, valid_accents, accents_map):
+def download_split(dataset_path, split, download_batch_size, accents_map, output_dir):
     base_url = f'https://datasets-server.huggingface.co/rows?dataset={dataset_path}&config=en&split={split}'
     split_sample_count = query('&'.join([base_url, 'length=1']))['num_rows_total']
-    audio_dir = '/'.join([OUTPUT_DIR, split])
+    audio_dir = '/'.join([output_dir, split])
+
+    valid_accents = set(accents_map.keys())
 
     rows = []
     offset = 0
     while offset <= split_sample_count:
-        batch_url = '&'.join([base_url, f'offset={offset}', f'length={DOWNLOAD_BATCH_SIZE}'])
+        batch_url = '&'.join([base_url, f'offset={offset}', f'length={download_batch_size}'])
 
         batch = query(batch_url)
         new_rows = process_batch(batch, valid_accents, accents_map, audio_dir)
         rows.extend(new_rows)
 
-        offset += DOWNLOAD_BATCH_SIZE
+        offset += download_batch_size
     
     df = pd.DataFrame.from_records(rows)
     return df
 
 
 def main():
+    parser = argparse.ArgumentParser(description='selfplaying script')
+    
+    # Not optional
+    parser.add_argument('--api_token', type=str, default=None,
+        help='Method to use for downsampling')
+
+    parser.add_argument('--accents_map_path', type=str, default='accents_map.json',
+        help='Path to accent group mapping file (.json)')
+    parser.add_argument('--output_dir', type=str, default='cv16',
+        help='Directory to save audio files and tsv files to')
+    parser.add_argument('--download_batch_size', type=int, default=99,
+        help='batch size for downloading')
+    args = parser.parse_args()
+
+    assert args.api_token is not None, 'Must provide a Hugging Face access token to download the Common Voice 16 dataset'
+    global HEADERS
+    HEADERS = {"Authorization": f"Bearer {args.api_token}"}
 
     # Get list of valid accents
-    accents_map = json.load(open(ACCENTS_MAP_PATH, 'r'))
-    valid_accents = set(accents_map.keys())
+    accents_map = json.load(open(args.accents_map_path, 'r'))
 
     all_data_df = pd.DataFrame()
 
     for split in SPLITS:
-        split_dir_pth = '/'.join([OUTPUT_DIR, split])
+        split_dir_pth = '/'.join([args.output_dir, split])
         if not os.path.exists(split_dir_pth):
             os.makedirs(split_dir_pth)
 
-        split_df = download_split(DATASET_PATH, split, valid_accents, accents_map)
+        split_df = download_split(DATASET_PATH, split, args.download_batch_size, accents_map, args.output_dir)
         # Save data to tsv file
-        split_df.to_csv('/'.join([OUTPUT_DIR, f'{split}.tsv']), sep='\t', index=False)
+        split_df.to_csv('/'.join([args.output_dir, f'{split}.tsv']), sep='\t', index=False)
         # Combine all data into one file
         all_data_df = pd.concat([all_data_df, split_df])
 
-    all_data_df.to_csv('/'.join([OUTPUT_DIR, f'all.tsv']), sep='\t', index=False)
+    all_data_df.to_csv('/'.join([args.output_dir, f'all.tsv']), sep='\t', index=False)
 
 
 if __name__ == '__main__':

@@ -18,6 +18,45 @@ def load_model_and_processor(model_name: str):
     return model, processor
 
 
+def transcribe_samples(
+        data_tsv_path, 
+        model, 
+        processor, 
+        sample_rate, 
+        downsamp_method, 
+        transcription_streaming_backup):
+    # Get registry for audio samples
+    sample_reg = pd.read_csv(data_tsv_path, sep='\t')
+    # Correct paths for this script
+    sample_reg['corrected_path'] = DATA_FILE_DIR + sample_reg['save_path']
+
+    raw_transcriptions = []
+    for row in sample_reg.iterrows():
+        sample = row[1]
+
+        # Load sample and adjust sample rate
+        waveform_arr = load_sample(sample['corrected_path'])
+        waveform_arr = adjust_sample_rate(waveform_arr, sample['sample_rate'], sample_rate, downsamp_method)
+
+        # Process sample
+        input_values = processor(waveform_arr, sampling_rate=sample_rate, return_tensors="pt", padding="longest").input_values  # Batch size 1
+        
+        logits = model(input_values).logits
+        # take argmax and decode
+        predicted_ids = torch.argmax(logits, dim=-1)
+        transcription = processor.batch_decode(predicted_ids)[0]
+
+        # Store transcription
+        raw_transcriptions.append(transcription)
+        if transcription_streaming_backup is not None:
+            store_transcription(transcription, transcription_streaming_backup)
+
+    sample_reg['raw_transcriptions'] = raw_transcriptions
+    sample_reg['preprocessed_transcriptions'] = list(map(preprocess_transcription, raw_transcriptions))
+
+    return sample_reg
+
+
 def main():
     parser = argparse.ArgumentParser(description='selfplaying script')
     model_choices = [
@@ -35,8 +74,10 @@ def main():
         choices=model_choices,
         help='Hugging Face Model to use to transcribe audio samples')
 
-    parser.add_argument('--data_tsv_path', type=str, default='../data/common_voice_16/audio/valid_samples_ref.tsv',
-        help='Path to tsv registry for audio samples')
+    parser.add_argument('--sa_data_tsv_path', type=str, default='../data/cv16/all.tsv',
+        help='Path to tsv registry for single accent audio samples')
+    parser.add_argument('--ma_data_tsv_path', type=str, default='../data/cv16/multi.tsv',
+        help='Path to tsv registry for multi accent audio samples')
     parser.add_argument('--downsamp_method', type=str, default='None', options=list(DOWNSAMPLING_REG.keys()),
         help='Method to use for downsampling')
         
@@ -45,42 +86,38 @@ def main():
     
     args = parser.parse_args()
 
-    # Generate output path
-    splt_pth = args.data_tsv_path.split('/')
-    splt_pth[-1] = '_'.join(['transcriptions', args.model.replace('/', '_').replace('-', '_'), splt_pth[-1]])
-    output_file_path = '/'.join(splt_pth)
-    
-    # Get registry for audio samples
-    sample_reg = pd.read_csv(args.data_tsv_path, sep='\t')
-    # Correct paths for this script
-    sample_reg['corrected_path'] = DATA_FILE_DIR + sample_reg['save_path']
-
     model, processor = load_model_and_processor(args.model)
     sample_rate = processor.feature_extractor.sampling_rate
 
-    raw_transcriptions = []
-    for row in sample_reg.iterrows():
-        sample = row[1]
+    # Generate output paths
+    splt_pth = args.data_tsv_path.split('/')
+    splt_pth[-1] = '_'.join(['sa_transcriptions', args.model.replace('/', '_').replace('-', '_'), splt_pth[-1]])
+    single_accent_output_file_path = '/'.join(splt_pth)
 
-        # Load sample and adjust sample rate
-        waveform_arr = load_sample(sample['corrected_path'])
-        waveform_arr = adjust_sample_rate(waveform_arr, sample['sample_rate'], sample_rate, args.downsamp_method)
+    splt_pth[-1] = '_'.join(['ma_transcriptions', args.model.replace('/', '_').replace('-', '_'), splt_pth[-1]])
+    multi_accent_output_file_path = '/'.join(splt_pth)
 
-        # Process sample
-        input_values = processor(waveform_arr, sampling_rate=sample_rate, return_tensors="pt", padding="longest").input_values  # Batch size 1
-        
-        logits = model(input_values).logits
-        # take argmax and decode
-        predicted_ids = torch.argmax(logits, dim=-1)
-        transcription = processor.batch_decode(predicted_ids)[0]
+    # get single accent transcriptions
+    transcriptions_data = transcribe_samples(
+        args.sa_data_tsv_path, 
+        model, 
+        processor, 
+        sample_rate, 
+        args.downsamp_method, 
+        args.transcription_streaming_backup)
 
-        # Store transcription
-        raw_transcriptions.append(transcription)
-        if args.transcription_streaming_backup is not None:
-            store_transcription(transcription, args.transcription_streaming_backup)
+    transcriptions_data.to_csv(single_accent_output_file_path, sep='\t', index=False)
 
-    sample_reg['raw_transcriptions'] = raw_transcriptions
-    sample_reg['preprocessed_transcriptions'] = list(map(preprocess_transcription, raw_transcriptions))
+    # get multi accent transcriptions
+    transcriptions_data = transcribe_samples(
+        args.ma_data_tsv_path, 
+        model, 
+        processor, 
+        sample_rate, 
+        args.downsamp_method, 
+        args.transcription_streaming_backup)
+
+    transcriptions_data.to_csv(multi_accent_output_file_path, sep='\t', index=False)
 
 
 if __name__ == '__main__':

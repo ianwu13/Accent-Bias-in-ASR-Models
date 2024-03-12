@@ -20,40 +20,69 @@ def load_model():
     return canary_model
 
 
+def transcribe_samples(
+        data_tsv_path, 
+        batch_size,
+        model,
+        transcription_streaming_backup):
+    # Get registry for audio samples
+    sample_reg = pd.read_csv(data_tsv_path, sep='\t')
+    # Correct paths for this script
+    sample_reg['corrected_path'] = DATA_FILE_DIR + sample_reg['save_path']
+    
+    raw_transcriptions = model.transcribe(
+        audio=list(sample_reg['corrected_path']),
+        batch_size=batch_size,  # batch size to run the inference with
+    )
+
+    if transcription_streaming_backup is not None:
+        with open(transcription_streaming_backup, 'w') as f:
+            for rt in raw_transcriptions:
+                f.write(rt + '\n')
+
+    sample_reg['raw_transcriptions'] = raw_transcriptions
+    sample_reg['preprocessed_transcriptions'] = list(map(preprocess_transcription, raw_transcriptions))
+
+
 def main():
     parser = argparse.ArgumentParser(description='selfplaying script')
-    parser.add_argument('--data_tsv_path', type=str, default='../data/common_voice_16/audio/valid_samples_ref.tsv',
-        help='Path to tsv registry for audio samples')
+    parser.add_argument('--sa_data_tsv_path', type=str, default='../data/cv16/all.tsv',
+        help='Path to tsv registry for single accent audio samples')
+    parser.add_argument('--ma_data_tsv_path', type=str, default='../data/cv16/multi.tsv',
+        help='Path to tsv registry for multi accent audio samples')
     parser.add_argument('--batch_size', type=int, default=16,
         help='Batch size to run inference with')
     parser.add_argument('--transcription_streaming_backup', type=str, default=None,
         help='File to save transcriptions to as they are generated in case of backup')
     args = parser.parse_args()
 
-    # Generate output path
-    splt_pth = args.data_tsv_path.split('/')
-    splt_pth[-1] = '_'.join(['transcriptions', args.model.replace('/', '_').replace('-', '_'), splt_pth[-1]])
-    output_file_path = '/'.join(splt_pth)
-    
-    # Get registry for audio samples
-    sample_reg = pd.read_csv(args.data_tsv_path, sep='\t')
-    # Correct paths for this script
-    sample_reg['corrected_path'] = DATA_FILE_DIR + sample_reg['save_path']
-
     model = load_model(args.model)
-    
-    raw_transcriptions = model.transcribe(
-        audio=list(sample_reg['corrected_path']),
-        batch_size=args.batch_size,  # batch size to run the inference with
-    )
 
-    if args.transcription_streaming_backup is not None:
-        with open(args.transcription_streaming_backup, 'w') as f:
-            for rt in raw_transcriptions:
-                f.write(rt + '\n')
+    # Generate output paths
+    splt_pth = args.data_tsv_path.split('/')
+    splt_pth[-1] = '_'.join(['sa_transcriptions', args.model.replace('/', '_').replace('-', '_'), splt_pth[-1]])
+    single_accent_output_file_path = '/'.join(splt_pth)
 
-    sample_reg['raw_transcriptions'] = raw_transcriptions
-    sample_reg['preprocessed_transcriptions'] = list(map(preprocess_transcription, raw_transcriptions))
+    splt_pth[-1] = '_'.join(['ma_transcriptions', args.model.replace('/', '_').replace('-', '_'), splt_pth[-1]])
+    multi_accent_output_file_path = '/'.join(splt_pth)
+
+    # get single accent transcriptions
+    transcriptions_data = transcribe_samples(
+        args.sa_data_tsv_path, 
+        args.batch_size, 
+        model, 
+        args.transcription_streaming_backup)
+
+    transcriptions_data.to_csv(single_accent_output_file_path, sep='\t', index=False)
+
+    # get multi accent transcriptions
+    transcriptions_data = transcribe_samples(
+        args.ma_data_tsv_path, 
+        args.batch_size, 
+        model, 
+        args.transcription_streaming_backup)
+
+    transcriptions_data.to_csv(multi_accent_output_file_path, sep='\t', index=False)
 
 
 if __name__ == '__main__':

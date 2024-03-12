@@ -86,7 +86,7 @@ def main():
     
     # Not optional
     parser.add_argument('--api_token', type=str, default=None,
-        help='Method to use for downsampling')
+        help='Access token for Hugging Face')
 
     parser.add_argument('--accents_map_path', type=str, default='accents_map.json',
         help='Path to accent group mapping file (.json)')

@@ -45,7 +45,7 @@ def transcribe_samples(
 
 
 def main():
-    parser = argparse.ArgumentParser(description='selfplaying script')
+    parser = argparse.ArgumentParser(description="Transcribe audio files with Nvidia's Canary Model")
     parser.add_argument('--sa_data_tsv_path', type=str, default='../data/cv16/all.tsv',
         help='Path to tsv registry for single accent audio samples')
     parser.add_argument('--ma_data_tsv_path', type=str, default='../data/cv16/multi.tsv',

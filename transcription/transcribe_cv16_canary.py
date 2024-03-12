@@ -2,7 +2,7 @@ import pandas as pd
 import argparse
 from nemo.collections.asr.models import EncDecMultiTaskModel
 
-from ..utils import preprocess_transcription, store_transcription
+from utils import preprocess_transcription, store_transcription
 
 
 DATA_FILE_DIR = '../data/'

@@ -5,7 +5,7 @@ import torch
 import wave
 from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC
 
-from utils import preprocess_transcription, adjust_sample_rate, load_sample, store_transcription, DOWNSAMPLING_REG
+from ..utils import preprocess_transcription, adjust_sample_rate, load_sample, store_transcription, DOWNSAMPLING_REG
 
 
 DATA_FILE_DIR = '../data/'

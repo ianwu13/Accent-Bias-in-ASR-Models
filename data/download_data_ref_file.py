@@ -4,6 +4,8 @@ from huggingface_hub import login
 from datasets import load_dataset
 import wave
 
+from utils import save_waveform
+
 
 VALID_SAMPLES_PATH = 'common_voice_16/preprocessed_tabular/validated.tsv'
 AUDIO_FILE_DIR = 'common_voice_16/audio'
@@ -66,9 +68,7 @@ def main():
                 valid_samples.loc[(valid_samples['client_id'] == client_id) & (valid_samples['sentence'] == sentence) & (valid_samples['accents'] == accent), 'sample_rate'] = sample_rate
 
                 # Save waveform to file
-                with wave.open(wav_path, 'w') as f:
-                    f.setparams((1, 2, sample_rate, audio_array.size, 'NONE', ''))
-                    f.writeframes((audio_array * (2 ** 15 - 1)).astype("<h").tobytes())
+                save_waveform(wav_path, audio_array, sample_rate)
             
     # Save match tracking files
     json.dump(valid_samples_hf, open('/'.join([AUDIO_FILE_DIR, 'valid_hf_samples.json']), 'w'))

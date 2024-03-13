@@ -14,7 +14,7 @@ A mapping for accent lables present in the original data to accent groups on whi
 A variation of `download_data_ref_file.py` which only downloads audio samples for valid rows. This script does not reference a valid samples files, but may be preferable if computational resources are limited.
 
 ### `generate_agglomarative_samples.py`
-TODO
+Generates multi-accent samples from already downloaded single-accent samples. A tsv file of samples if provided, along with the common sample rate to convert samples to (usually 16000 Hz). Samples are then saved and recorded in another tsv file.
 
 ### `preprocess_tabular_data.py`
 Preprocesses the original tsv file containing all dataset samples (excluding actual audio files). This process includes filtering rows without valid accent labels, mapping accent labels to groups, and text preprocessing for the sentence spoken in the recording.
@@ -46,3 +46,9 @@ pip install hydra-core pytorch-lightning lhotse jiwer pyannote.audio webdataset 
 ***
 
 ## Evaluation
+
+### `evaluate_single_accent.py`
+TODO
+
+### `evaluate_multi_accent.py`
+TODO

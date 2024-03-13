@@ -1,7 +1,11 @@
 # Imports Here
 import numpy as np
 import wave
+import librosa
 from scipy import signal
+
+
+RANDOM_SEED = 531
 
 
 def preprocess_transcription(raw_text: str) -> str:
@@ -53,3 +57,15 @@ def adjust_sample_rate(sample, sample_sr, target_sr, method):
     # Convert to proper sampling rate]
     assert sample_sr > target_sr, 'Sampling rate of input audio must be larger than models sampling rate to be converted properly'
     return DOWNSAMPLING_REG[method](sample, sample_sr, target_sr)
+
+
+def load_wav_file(path):
+    audio_array, _ = librosa.open(path)
+    return audio_array
+
+
+def save_waveform(wav_path, audio_array: np.ndarray, sample_rate):
+    # Save waveform to file
+    with wave.open(wav_path, 'w') as f:
+        f.setparams((1, 2, sample_rate, audio_array.size, 'NONE', ''))
+        f.writeframes((audio_array * (2 ** 15 - 1)).astype("<h").tobytes())

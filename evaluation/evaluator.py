@@ -3,9 +3,10 @@ from evaluate import load
 
 
 class Evaluator():
-    def __init__(self, preload_bertscore_model=False):
+    def __init__(self, bert_model='distilbert-base-uncased', preload_bertscore_model=False):
         self.__init__()
 
+        self.bert_model = bert_model
         if preload_bertscore_model:
             self.bertscore_model = load('bertscore')
 
@@ -43,4 +44,4 @@ class Evaluator():
             pred = [pred]
             ref = [ref]
         
-        return self.bertscore_model.compute(predictions=pred, references=ref, model_type="distilbert-base-uncased")
+        return self.bertscore_model.compute(predictions=pred, references=ref, model_type=self.bert_model)

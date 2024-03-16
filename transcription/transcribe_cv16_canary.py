@@ -59,10 +59,11 @@ def main():
     model = load_model(args.model)
 
     # Generate output paths
-    splt_pth = args.data_tsv_path.split('/')
+    splt_pth = args.sa_data_tsv_path.split('/')
     splt_pth[-1] = '_'.join(['sa_transcriptions', args.model.replace('/', '_').replace('-', '_'), splt_pth[-1]])
     single_accent_output_file_path = '/'.join(splt_pth)
 
+    splt_pth = args.ma_data_tsv_path.split('/')
     splt_pth[-1] = '_'.join(['ma_transcriptions', args.model.replace('/', '_').replace('-', '_'), splt_pth[-1]])
     multi_accent_output_file_path = '/'.join(splt_pth)
 

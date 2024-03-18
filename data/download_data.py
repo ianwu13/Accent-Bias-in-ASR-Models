@@ -4,6 +4,8 @@ import argparse
 import pandas as pd
 import librosa
 
+from utils import preprocess_transcription
+
 
 # Dataset specific, should not change
 DATASET_PATH = 'mozilla-foundation/common_voice_16_1'
@@ -42,15 +44,17 @@ def process_batch(batch, valid_accents, accents_map, audio_dir):
         # Ignore invalid rows (bad accent label)
         if row['accent'] not in accents_map:
             continue
+        
         # Otherwise process row
         row['row_idx'] = s['row_idx']
+        row['preprocessed_sentence'] = preprocess_transcription(row['sentence'])
         row['accent_group'] = accents_map[row['accent']]
         audio_data = row.pop('audio')
 
         # save audio and record sample_rate
         save_path = '/'.join([audio_dir, row['path'].split('/')[-1]])
         sample_rate = save_and_get_sample_rate(audio_data[0]['src'], save_path)
-        
+
         row['save_path'] = save_path
         row['sample_rate'] = sample_rate
 

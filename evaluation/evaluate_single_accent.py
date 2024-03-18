@@ -4,12 +4,11 @@ import argparse
 import pandas as pd
 
 from evaluator import Evaluator
-from utils import preprocess_transcription
 
 
 def evaluate_transcription_set(df, evaluator):
     pred = df['preprocessed_transcriptions'].tolist()
-    ref = df['sentence'].apply(lambda s: preprocess_transcription(s)).tolist()
+    ref = df['preprocessed_sentence']
 
     wer = evaluator.wer(pred, ref)
     cer = evaluator.cer(pred, ref)

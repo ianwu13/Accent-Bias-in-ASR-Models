@@ -1,6 +1,4 @@
-## X Accent Groups
-
-### North American/U.S.
+### North American
     ohio
     United States English,midwesterern,country
     Southern Texas Accent,United States English
@@ -92,7 +90,49 @@
     United States English,California English,Southern US English
     United States English,Cool
     Upper Midwestern,United States English
-### Australian
+    canadian - toronto english,Canadian English
+    United States English,wolof
+    Canadian English
+    United States English,Southern Californian English
+    U.K. English
+    United States English,southern United States,New Orleans dialect
+    So its a dialect of its own Mississippi and Bama based the southern twang gets deeper in the right setting and such a unique language is the best way to put it yall
+    French Canadian
+    Canadian English,Toronto English
+    Brooklyn
+    United States English,Pacific Northwest 
+    United States English,mid-west with speach and mind problems from MS,Mid western with a little Southern, with speach problems related to MS.
+    North American southeastern dialect
+    African-America
+    New York City
+    United States English,Asian-American English
+    A Savage Texas Gentleman 
+    Ontario,Canadian English
+    United States English,Variable
+    american
+    United States English,New York,italian american
+    United States English,Southeast American English
+    I have a mild Brooklyn accent.
+    Southern drawl
+    Canadian English,French
+    New Jerseyan
+    northern cali
+    United States English,Canadian English,international
+    United States English,pin/pen merger
+    United States English,i have some pronunciation issues because of oral surgery and a hidden southern accent
+    United States English,southern, formal, sultry
+    Unite States Midwest,United States English
+    United States English,African American ,Midwestern Wisconsin,Midwestern,Wisconsin
+    According to APTIS, I've got a C1 level,United States English
+    American South East Georgia Dialect
+    United States English,Mid Atlantica ,African American Vernacular
+    southeastern U.S. with some Mississippi, Virginia, Rhode Island, and coastal South
+    Southern Texas Spanish American
+    United States English,Spoke Chinese when little,90% Pennsylvanian accent, 10% Chinese accent
+    United States English,Chicano English,"Valley Girl" English
+    Midwestern
+    United States English,Speech impediment,Rhotacism
+### Oceanian
     Kiwi
     Australian English,Educated Australian Accent
     New Zealand English,Australian English,England English
@@ -103,6 +143,9 @@
     Australian English,teenager
     Australian English
     New Zealand English
+    New Zealand English,I don't really speak english, just practicing
+    South Australia
+    Australian English,Sydney - middle eastern seaboard Australian
 ### British/English
     England English,Very British 
     England English,My accent in particular is regional - specifically Shropshire - identified in other parts of the UK as a West Midlands accent.
@@ -143,13 +186,57 @@
     England English,Scottish English
     England English,Lancashire, England 
     England English,Southern England
+    Welsh English
+    English Cumbrian,English Northern
+    England non-native
+    Welsh English,south east wales
+    Chichester
+    Irish English,Northern Irish English,belfast 
+    England English,Educated,non regional
+    England English,Porto des dels 3 anys aprenent anglès a l'escola i actualment m'estic preparant per a l'examen del B2.
+    Northern Irish
+    England English,East Anglian English
+    Scottish English
+    East London
+    Northern Irish,Norwegian,yorkshire
+    Northern Irish,culchie
+    South Dublin English,Dublin South English
+    English (UK)
+    Scottish English,Scottish
+    English north of England 
+    British accent
+    Cowdengelly,Scottish English
+    Midatlantic,England English
+    Canadian English,SerpentX
+    England English,London English
+    Northumbrian British English
+    Irish English,English
+    England English,Received Pronunciation
+    Liverpudlian English
+    Irish English
+    England English,Welsh English
+    Scottish English,Scottish English (West Coast),Scottish English (Ayrshire)
+    Northern Irish, English
+    Mancunion,England English
+    Nottinghamshire,East Midlands
+    Midatlantic
+    Central Scottish 
+    English County Durham
+    Northern English,yorkshire
+    Scottish English,Glaswegian 
+    Scottish English,Renfrewshire. Scotland
+    Scottish English,I have stayed in the Scottish Borders all my life.
+    England English,Southern England English with a subtle hint of Irish English.
+    England English,Middle-class London English accent with a very slight west-country twang
+    Scottish English,England English
 ### Chinese
     Chinese English
     Chinglish
     Chinese
     Mandarin English
     Hong Kong English
-### Indian
+    With heavy Cantonese accent
+### South Asia
     India and South Asia (India, Pakistan, Sri Lanka),try to maintain originality 
     India and South Asia (India, Pakistan, Sri Lanka),International Indian Accent
     India and South Asia (India, Pakistan, Sri Lanka),Indian with a tinge of an RP accent
@@ -167,6 +254,29 @@
     India and South Asia (India, Pakistan, Sri Lanka),Bangladeshi English
     India and South Asia (India, Pakistan, Sri Lanka),United States English
     India and South Asia (India, Pakistan, Sri Lanka)
+    Bangladeshi English
+    India and South Asia (India, Pakistan, Sri Lanka),Basic
+    Bangladeshi,Bangladesh English
+    Bangladeshi
+    Nepalese
+    Nepali
+    Tibetan American 
+    Thai
+### East Asian
+    indonesia
+    East Asian
+    indonesia,Indonesian
+    Filipino English
+    Indonesian
+    Singaporean English,Malaysian English
+    Indonesian,international school
+    Javanese,Indonesian English,Malaysian English
+    Filipino,Bisaya
+    Filipino
+    Malaysian English
+    Singaporean English
+    Vietnam
+    Japanese English
 ### German
     German English,Non native speaker
     European,German,Foreign,Non-native
@@ -179,386 +289,277 @@
     German
     German English
     German English,"denglish"
+    Danish English,German English,Nordic accent
+    English with Swiss german accent
+    Austrian
+    Dutch
+    Deutsch English
+    Dutch English
+    Dutch,European,Adjustable
+    Dutch modern English
+### French
+    french accent
+    Non native speaker from France
+    french english
+    not native English, originally French native language
+    Swedish accent
+    Swiss English
+    minor french accent
+    cajun french
+    French
+    french accent,French mid level accent
+### Northern European
+    Finnish foreign accent,Foreign
+    Swedish English
+    Finnish
+    english norwegian
+    Norwegian
+    flemish
+### Central and South American
+    Latin American accent
+    Hispanic
+    Latin English
+    South America
+    Brazilian,Latino
+    Brazillian Accent
+    mexican accent
+    Brazillian
+    Colombian Accent
+    Brazilian
+    Argentine English
+    Argentinian English
+    little latino,United States English,second language
+    Hispanic/Latino
+    Latino
+    chilean non native english
+### Atlantic and Carribean
+    Domincian
+    Caribbean Canadian 
+    West Indies and Bermuda (Bahamas, Bermuda, Jamaica, Trinidad)
+    Haitian Creole
+    West Indies and Bermuda (Bahamas, Bermuda, Jamaica, Trinidad),Patois
+    South Atlantic (Falkland Islands, Saint Helena)
 ### African
-
-### Eastern European
-
-### UNKNOWN
-
-
-## To Be Grouped Accents
-
-South African English Accent 
-canadian - toronto english,Canadian English
-United States English,wolof
-Spanish influenced
-polish
-Southern African (South Africa, Zimbabwe, Namibia)
-Welsh English
-Filipino
-Scottish English
-Canadian English
-Malaysian English
-Singaporean English
-French Canadian
-Eastern European,Russian
-french english
-Latvian English
-Arabic English
-Russian
-Welsh English,south east wales
-Brazilian
-Russian English
-not native English, originally French native language
-cajun french
-indonesia
-Kenyan accent
-Argentine English
-just like us accent,United States English,Australian English,England English,Canadian English,Filipino,Hong Kong English,India and South Asia (India, Pakistan, Sri Lanka),Malaysian English,Singaporean English,Welsh English,West Indies and Bermuda (Bahamas, Bermuda, Jamaica, Trinidad),South Atlantic (Falkland Islands, Saint Helena),New Zealand English,Irish English,Scottish English
-Slovak
-India and South Asia (India, Pakistan, Sri Lanka),England English,Southern African (South Africa, Zimbabwe, Namibia)
-Dutch modern English
-Tibetan American 
-West Indies and Bermuda (Bahamas, Bermuda, Jamaica, Trinidad)
-United States English,England English
-Dutch
-United States English,Spanish,Very sexy ,Very good,I sound professional 
-Deutsch English
-Kenyan 
-american
-Irish English
-United States English,African American ,Midwestern Wisconsin,Midwestern,Wisconsin
-bulgarian english,non-native speaker
-United States English,England English,India and South Asia (India, Pakistan, Sri Lanka)
-Scottish English,Renfrewshire. Scotland
-England English,United States English
-Greek
-Mancunion,England English
-Israeli-USA-MIX
-Yoruba
-United States English,New York,italian american
-England English,Southern African (South Africa, Zimbabwe, Namibia)
-My accent is influenced by the phones of all letters within a sentence.,Southern African (South Africa, Zimbabwe, Namibia)
-So its a dialect of its own Mississippi and Bama based the southern twang gets deeper in the right setting and such a unique language is the best way to put it yall
-Domincian
-England English,East Anglian English
-chilean non native english
-Deformato
-North American southeastern dialect 
-Filipino,Canadian English
-United States English,Norwegian
-United States English,Latvian
-United States English,Ponglish
-United States English,Southeast American English
-Turkish Accent
-Turkmen
-Danish English,German English,Nordic accent
-United States English,mid-west with speach and mind problems from MS,Mid western with a little Southern, with speach problems related to MS.
-Ghanaian
-Italian,Sicilian
-Indonesian
-Canadian English,French
-Egyptian
-English Cumbrian,English Northern
-Catalan
-According to APTIS, I've got a C1 level,United States English
-Dutch English,United States English
-hey you are you ok ,hello my friend,i love you,yes i am,ho are you
-Irish English,English
-english norwegian
-South America
-Southern Texas Spanish American
-not a native speaker
-Strong Russian accent
-Problema alla corte vocali
-England English,Finnish
-Finnish foreign accent,Foreign
-Brazillian
-Nepali
-United States English,Australian English,England English,Scottish English,Irish English,Welsh English
-Born and raised in Greece. English is a second language. I was taught British English but I think my accent has shifted to American English. 
-Eastern European
-Filipino,Eastern European,ukrainian anglosax
-Northern Irish
-Israeli
-Northern Africa Accent
-Nepalese
-Midatlantic
-Scottish English,spanish english
-England English,Hong Kong English
-Spanish
-English Ghanaian
-Ghanaian english Accent,african regular reader
-English as second language (russian as first)
-I speak as if I am there.
-East Asian
-french accent
-Born in West Germany in 1966, lived in Toronto, Ontario from 1985 to 2004, now in Central America.
-Chichester
-Latino
-Scottish English,Scottish English (West Coast),Scottish English (Ayrshire)
-United States English,Speech impediment,Rhotacism
-United States English,German
-I am ,Kenyan influenced by British english
-Cowdengelly,Scottish English
-Non native
-Ukrainian
-New Zealand English,I don't really speak english, just practicing
-United States English,Canadian English,Indo-Canadian English
-English (UK)
-Bangladeshi
-Nigerian English
-indonesia,Indonesian
-I have a mild Brooklyn accent.
-United States English,Scottish English,Irish English,England English
-Brazilian,Latino
-United States English,Canadian English
-French
-Ukrainian,Russian,Australian English
-Singaporean English,Hong Kong English,United States English
-Personal idiolect
-Scottish English,I have stayed in the Scottish Borders all my life.
-United States English,Irish English,Italian
-Norwegian
-India and South Asia (India, Pakistan, Sri Lanka),England English
-England English,Australian English,India and South Asia (India, Pakistan, Sri Lanka)
-Canadian English,Toronto English
-Russian Accent
-northern cali
-Indonesian,international school
-Kenyan English,Canadian English
-Central Scottish 
-Israeli's accent 
-Midwestern
-polish,Easter European,Slavic,Foreign
-I have none that I can tell.
-Northern English,yorkshire
-Scottish English,Glaswegian 
-Czech
-African-America
-spanish native with a good level of proficiency in english,colombian
-United States English,Puerto Rican,Latin American English,Florida,New York,Long Island,Savannah, Georgia
-Polish English,England English
-Argentinian English
-Lebanese accent
-Swedish English
-Finnish
-Canadian English,Welsh English
-Hungarian English 
-Русский
-Not bad
-Non native English
-Canadian English,India and South Asia (India, Pakistan, Sri Lanka)
-Southern African (South Africa, Zimbabwe, Namibia),Xhosa,male,black
-Filipino English
-United States English,England English,Hong Kong English
-United States English,Southern African (South Africa, Zimbabwe, Namibia)
-Brooklyn 
-flemish
-South African English
-Greek-made,United States English,gaming-english,Hong Kong English,Canadian English,Australian English,England English
-Canadian English,United States English
-Turkish
-England English,Received Pronunciation
-English County Durham
-Japanese English
-Выраженный украинский акцент
-South Atlantic (Falkland Islands, Saint Helena)
-United States English,Slight Dutch accent
-England English,India and South Asia (India, Pakistan, Sri Lanka)
-United States English,Mid Atlantica ,African American Vernacular 
-United States English,Malaysian English
-Second tongue
-Italian,England English
-United States English,India and South Asia (India, Pakistan, Sri Lanka)
-serbian
-Non native speaker from France
-Canadian English,SerpentX
-England English,Israeli
-Nigerian 
-A'lo
-Non-native
-Haitian Creole
-England English with a touch of Canadian
-Slavic
-Southern African (South Africa, Zimbabwe, Namibia),Durban
-Russian,Ukrainian,Slavic
-nigeria english
-Israeli accent
-Hong Kong English,Scottish English
-England non-native
-English (Native Greek speaker)
-United States English,Dutch
-United States English,Kenyan English
-Polish English
-England English,Educated,non regional
-Cretan_Accent
-southeastern U.S. with some Mississippi, Virginia, Rhode Island, and coastal South
-Scottish English,England English
-Danish/British/American blend
-Nottinghamshire,East Midlands
-United States English,southern, formal, sultry
-Filipino,United States English
-England English,Porto des dels 3 anys aprenent anglès a l'escola i actualment m'estic preparant per a l'examen del B2.
-mix of american and british ,native polish
-very slight Russian accent,Standard American English,Boston influence
-India and South Asia (India, Pakistan, Sri Lanka),Basic
-East London 
-India and South Asia (India, Pakistan, Sri Lanka),Singaporean English
-New York City
-United States English,Hong Kong English
-United States English,i have some pronunciation issues because of oral surgery and a hidden southern accent
-Hispanic/Latino
-A mix - A Thai native, non-native English speaker, initially educated under British system in Thailand then later educated in the US
-United States English,Variable
-Filipino,Bisaya
-New Zealand English,United States English
-Singaporean English,England English
-England English,Welsh English
-India and South Asia (India, Pakistan, Sri Lanka),England English,United States English
-United States English,English Second Language
-Scottish English,Scottish
-United States English combined with European English
-West Indies and Bermuda (Bahamas, Bermuda, Jamaica, Trinidad),Patois
-England English,Southern England English with a subtle hint of Irish English.
-England English,Middle-class London English accent with a very slight west-country twang
-English with Swiss german accent
-New Zealand English,England English
-European English,French,Romanian
-United States English,pin/pen merger
-I was born in England and have lived in Australia, Canada and France.
-United States English,Swedish
-England English,London English
-Canadian English,Pacific Northwest English
-South Dublin English,Dublin South English
-Vietnam
-polish,Slavic,Foreign,Easter European
-polish accent
-Russian,East Ukrainian 
-Australian English,Canadian English
-Colombian Accent
-Czech accent
-Afrikaans English
-Bangladeshi,Bangladesh English
-United States English,Colombia
-England English,Swedish
-Spanish bilingual
-United States English,Foreigner English
-Western Europe
-English north of England 
-Southern African (South Africa, Zimbabwe, Namibia),England English
-Nigerian ,West African 
-Italian,United States English
-Irish English,Northern Irish English,belfast 
-Singaporean English,United States English
-Brazillian Accent
-mexican accent
-United States English,Australian English,England English,New Zealand English,India and South Asia (India, Pakistan, Sri Lanka),international,Slovak
-Liverpudlian English
-United States English,Russian
-U.K. English
-slighty Southern affected by decades in the Midwest, 4 years in Spain and 
-United States English,Filipino
-Swiss English
-Latin America,United States English
-India and South Asia (India, Pakistan, Sri Lanka),United States English,England English
-European,eastern europe,pronounced r's,heavy consonants 
-Transnational englishes blend
-United States English,Irish English
-Hunglish
-Canadian English,Swedish English
-United States English,England English,Irish English
-United States English,Southern Californian English
-Hungarian
-United States English,American english with austrian accent
-International English,United States English,Australian English
-United States English,Canadian English,international
-Dutch,European,Adjustable
-Kenyan ,East African
-Eastern European English
-United States English,British English
-A variety of Texan English with some German influence that has undergone the cot-caught merger
-Australian English,Sydney - middle eastern seaboard Australian
-fluent,ESL,European
-Latin American accent
-Georgian English
-West African 
-Northern Irish, English
-United States English,Chicano English,"Valley Girl" English
-United States English,Israeli accent
-mostly American with some British and Australian inflections
-North European English
-Kenyan English
-Caribbean Canadian 
-England English,United States English,Brazilian Accent,EFL
-South African  English accent 
-Canadian English,Irish English
-United States English,Hmong-American
-Australian English,England English,Japanese
-Singaporean English,Malaysian English
-England English,Norwegian
-A Savage Texas Gentleman 
-serbian,United States English
-Australian English,England English
-India and South Asia (India, Pakistan, Sri Lanka),Canadian English
-Swedish accent
-European English
-European
-American South East Georgia Dialect
-West Indies and Bermuda (Bahamas, Bermuda, Jamaica, Trinidad),England English,Scottish English,United States English
-Thai
-South Australia
-Generic European
-Hispanic
-England English,United States English,English with Polish accent,Slavic English
-United States English,Spoke Chinese when little,90% Pennsylvanian accent, 10% Chinese accent
-New Jerseyan
-With heavy Cantonese accent
-Latin English
-2nd Language 
-United States English,Irish English,England English,Scottish English,Danish English
-Latvian
-minor french accent
-United States English,Asian-American English
-Dutch English
-Southern drawl
-strong Latvian accent
-British accent
-Javanese,Indonesian English,Malaysian English
-Kenyan English accent
-Midatlantic,England English
-Eastern European,Romanian
-United States English,Central American 
-Kazakhstan English
-Malaysian English,England English
-Slavic,Russian
-french accent,French mid level accent
-little latino,United States English,second language
-United States English,Some time spent in Scotland, mostly affecting inflection, I think
-United States English,England English,Transatlantic English
-Canadian English,United States English,England English
-Israeli English
-Northern Irish,Norwegian,yorkshire
-Austrian
-England English,German English
-Italian
-Spanish,Foreign,Non-native
-United States English,Pacific Northwest 
-Mix of american and british accent
-Slavic,East European,polish
-Bulgarian
-England English,south German / Swiss accent
-Bangladeshi English
-Ontario,Canadian English
-England English,New Zealand English,Welsh English,Australian English,United States English,Mixed-Accent English
-United States English,CARIBBEAN AND BRITISH MIXED WITH SOME NEW YORK ACCENTS
-Northumbrian British English
-Slavic,polish
-England English,Canadian English
-Unite States Midwest,United States English
-Northern Irish,culchie
-East African Khoja
-United States English,southern United States,New Orleans dialect
-South African accent ,Southern African (South Africa, Zimbabwe, Namibia)
-United States English,Scandinavian
-England English,New Zealand English
+    South African English Accent 
+    Southern African (South Africa, Zimbabwe, Namibia)
+    English Ghanaian
+    South African accent ,Southern African (South Africa, Zimbabwe, Namibia)
+    Northern Africa Accent
+    nigeria english
+    East African Khoja
+    Nigerian ,West African 
+    West African 
+    Kenyan ,East African
+    My accent is influenced by the phones of all letters within a sentence.,Southern African (South Africa, Zimbabwe, Namibia)
+    Nigerian
+    Kenyan English accent
+    Ghanaian
+    Southern African (South Africa, Zimbabwe, Namibia),Xhosa,male,black
+    Egyptian
+    Kenyan English
+    Kenyan
+    Ghanaian english Accent,african regular reader
+    Nigerian English
+    Yoruba
+    Kenyan accent
+    South African English
+    Southern African (South Africa, Zimbabwe, Namibia),Durban
+    Afrikaans English
+    South African  English accent 
+### Eastern European, Baltic, and Slavic
+    Czech
+    Slavic,East European,polish
+    Russian English
+    Russian Accent
+    Bulgarian
+    Slavic,Russian
+    polish,Slavic,Foreign,Easter European
+    polish accent
+    Russian,East Ukrainian
+    polish
+    Eastern European,Romanian
+    strong Latvian accent
+    serbian
+    Hungarian English 
+    Русский
+    Russian,Ukrainian,Slavic
+    Polish English
+    Latvian English
+    Russian
+    Slavic,polish
+    Slovak
+    Slavic
+    Czech accent
+    European,eastern europe,pronounced r's,heavy consonants 
+    serbian,United States English
+    Выраженный украинский акцент
+    polish,Easter European,Slavic,Foreign
+    Eastern European
+    Eastern European,Russian
+    Strong Russian accent
+    English as second language (russian as first)
+    bulgarian english,non-native speaker
+    Ukrainian
+    Kazakhstan English
+    Latvian
+    Hunglish
+    Hungarian
+    Eastern European English
+### Middle Eastern
+    Israeli
+    Israeli English
+    Israeli accent
+    Israeli's accent 
+    Lebanese accent
+    Turkish
+    Turkish Accent
+    Georgian English
+    Turkmen
+### Greek
+    English (Native Greek speaker)
+    Cretan_Accent
+    Greek
+### Multi-accent
+    United States English,Australian English,England English,Scottish English,Irish English,Welsh English
+    Born in West Germany in 1966, lived in Toronto, Ontario from 1985 to 2004, now in Central America.
+    Mix of american and british accent
+    Canadian English,United States English,England English
+    England English,south German / Swiss accent
+    Latin America,United States English
+    United States English,Dutch
+    United States English,Kenyan English
+    A mix - A Thai native, non-native English speaker, initially educated under British system in Thailand then later educated in the US
+    slighty Southern affected by decades in the Midwest, 4 years in Spain and 
+    Danish/British/American blend
+    European English
+    European
+    Canadian English,Welsh English
+    United States English,Scottish English,Irish English,England English
+    Singaporean English,Welsh English,West Indies and Bermuda (Bahamas, Bermuda, Jamaica, Trinidad),South Atlantic (Falkland Islands, Saint Helena),New Zealand English,Irish English,Scottish English
+    England English,German English
+    England English,Southern African (South Africa, Zimbabwe, Namibia)
+    England English,Hong Kong English
+    United States English,Irish English,Italian
+    England English,New Zealand English,Welsh English,Australian English,United States English,Mixed-Accent English
+    just like us accent,United States English,Australian English,England English,Canadian English,Filipino,Hong Kong English,India and South Asia (India, Pakistan, Sri Lanka),Malaysian English,
+    United States English,England English,Transatlantic English
+    United States English,Puerto Rican,Latin American English,Florida,New York,Long Island,Savannah, Georgia
+    United States English,CARIBBEAN AND BRITISH MIXED WITH SOME NEW YORK ACCENTS
+    very slight Russian accent,Standard American English,Boston influence
+    England English,New Zealand English
+    Israeli-USA-MIX
+    United States English,Norwegian
+    United States English,Latvian
+    United States English,Ponglish
+    England English,India and South Asia (India, Pakistan, Sri Lanka)
+    United States English,Hong Kong English
+    I am ,Kenyan influenced by British english
+    United States English,England English
+    West Indies and Bermuda (Bahamas, Bermuda, Jamaica, Trinidad),England English,Scottish English,United States English
+    United States English,Australian English,England English,New Zealand English,India and South Asia (India, Pakistan, Sri Lanka),international,Slovak
+    Hong Kong English,Scottish English
+    England English,Canadian English
+    mostly American with some British and Australian inflections
+    Southern African (South Africa, Zimbabwe, Namibia),England English
+    United States English,Some time spent in Scotland, mostly affecting inflection, I think
+    Canadian English,India and South Asia (India, Pakistan, Sri Lanka)
+    Ukrainian,Russian,Australian English
+    United States English,Scandinavian
+    India and South Asia (India, Pakistan, Sri Lanka),England English,Southern African (South Africa, Zimbabwe, Namibia)
+    United States English,England English,India and South Asia (India, Pakistan, Sri Lanka)
+    Italian,England English
+    Filipino,United States English
+    United States English,Russian
+    United States English,Filipino
+    England English,United States English,Brazilian Accent,EFL
+    Malaysian English,England English
+    Kenyan English,Canadian English
+    England English,United States English
+    Filipino,Eastern European,ukrainian anglosax
+    New Zealand English,United States English
+    Singaporean English,England English
+    England English,United States English,English with Polish accent,Slavic English
+    India and South Asia (India, Pakistan, Sri Lanka),United States English,England English
+    European English,French,Romanian
+    England English,Finnish
+    mix of american and british ,native polish
+    Greek-made,United States English,gaming-english,Hong Kong English,Canadian English,Australian English,England English
+    United States English,Irish English
+    Canadian English,Swedish English
+    United States English,England English,Irish English
+    United States English,Hmong-American
+    Australian English,England English,Japanese
+    England English,Norwegian
+    Australian English,England English
+    India and South Asia (India, Pakistan, Sri Lanka),Canadian English
+    United States English,Colombia
+    United States English,Irish English,England English,Scottish English,Danish English
+    A variety of Texan English with some German influence that has undergone the cot-caught merger
+    Filipino,Canadian English
+    United States English,Canadian English
+    Polish English,England English
+    United States English,Spanish,Very sexy ,Very good,I sound professional 
+    United States English,Slight Dutch accent
+    United States English,Malaysian English
+    United States English,India and South Asia (India, Pakistan, Sri Lanka)
+    Canadian English,United States English
+    Singaporean English,Hong Kong English,United States English
+    United States English,British English
+    United States English,German
+    United States English,Canadian English,Indo-Canadian English
+    United States English,American english with austrian accent
+    International English,United States English,Australian English
+    United States English combined with European English
+    New Zealand English,England English
+    I was born in England and have lived in Australia, Canada and France.
+    United States English,Swedish
+    Canadian English,Pacific Northwest English
+    Canadian English,Irish English
+    England English,Israeli 
+    England English with a touch of Canadian
+    England English,Australian English,India and South Asia (India, Pakistan, Sri Lanka)
+    spanish native with a good level of proficiency in english,colombian
+    United States English,Central American 
+    England English,Swedish
+    Dutch English,United States English
+    Scottish English,spanish englis
+    United States English,England English,Hong Kong English
+    United States English,Southern African (South Africa, Zimbabwe, Namibia)
+    United States English,Israeli accent
+    Catalan
+    India and South Asia (India, Pakistan, Sri Lanka),Singaporean English
+    India and South Asia (India, Pakistan, Sri Lanka),England English,United States English
+    Singaporean English,United States English
+    India and South Asia (India, Pakistan, Sri Lanka),England English
+    Australian English,Canadian English
+    Italian,United States English
+### Other
+    United States English,English Second Language
+    hey you are you ok ,hello my friend,i love you,yes i am,ho are you
+    Non native
+    I have none that I can tell.
+    Transnational englishes blend
+    Arabic English
+    Western Europe
+    Spanish influenced
+    North European English
+    Spanish bilingual
+    Spanish,Foreign,Non-native
+    Italian,Sicilian
+    Spanish
+    Italian
+    Born and raised in Greece. English is a second language. I was taught British English but I think my accent has shifted to American English.
+    A'lo
+    Non-native
+    Not bad
+    Non native English
+    Problema alla corte vocali
+    Deformato
+    not a native speaker
+    fluent,ESL,European
+    Second tongue
+    Generic European
+    2nd Language
+    I speak as if I am there.
+    Personal idiolect
+    United States English,Foreigner English

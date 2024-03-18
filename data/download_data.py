@@ -19,6 +19,10 @@ def query(url):
 
 
 def save_and_get_sample_rate(audio_url, save_path):
+    if os.path.exists(save_path):
+        print(f'Skipping download of "{audio_url}". Save path "{save_path}" already exists.')
+        return 0
+
     # Fetch the audio file from the URL
     response = requests.get(audio_url, headers=HEADERS)
     

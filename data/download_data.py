@@ -21,7 +21,7 @@ def query(url):
 def save_and_get_sample_rate(audio_url, save_path):
     if os.path.exists(save_path):
         print(f'Skipping download of "{audio_url}". Save path "{save_path}" already exists.')
-        return 0
+        return -1
 
     # Fetch the audio file from the URL
     response = requests.get(audio_url, headers=HEADERS)
@@ -35,8 +35,8 @@ def save_and_get_sample_rate(audio_url, save_path):
         _, sample_rate = librosa.load("temp_audio.wav", sr=None)
         return sample_rate
     else:
-        print("Failed to fetch audio file")
-        return 0
+        print(f'Failed to fetch audio file at "{audio_url}" to save at "{save_path}"')
+        return -1
 
 
 def process_batch(batch, valid_accents, accents_map, audio_dir):

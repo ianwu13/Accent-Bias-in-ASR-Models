@@ -161,3 +161,6 @@ cython_debug/
 
 # Custom - Ian
 data/common_voice_16/**
+
+# Code environments
+*.code-workspace

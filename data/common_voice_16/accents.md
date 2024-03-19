@@ -419,7 +419,7 @@
     English (Native Greek speaker)
     Cretan_Accent
     Greek
-### Multi-accent
+### Other
     United States English,Australian English,England English,Scottish English,Irish English,Welsh English
     Born in West Germany in 1966, lived in Toronto, Ontario from 1985 to 2004, now in Central America.
     Mix of american and british accent
@@ -533,7 +533,6 @@
     India and South Asia (India, Pakistan, Sri Lanka),England English
     Australian English,Canadian English
     Italian,United States English
-### Other
     United States English,English Second Language
     hey you are you ok ,hello my friend,i love you,yes i am,ho are you
     Non native

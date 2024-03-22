@@ -15,7 +15,9 @@ def map_accent_groups(df: pd.DataFrame()) -> pd.DataFrame():
     
     # Filter out accents without a group
     valid_accent_labels = set(accents_map.keys())
-    df = df.drop(df[df['accents'].isin(valid_accent_labels)].index)
+    # print(valid_accent_labels)
+    # print(len(valid_accent_labels))
+    df = df.drop(df[~df['accents'].isin(valid_accent_labels)].index)
 
     # Map accent labels to groups
     df['accent_group'] = df['accents'].map(lambda a: accents_map[a])
@@ -43,7 +45,7 @@ def main():
     df = map_accent_groups(df)
     df['preprocessed_sentence'] = df['sentence'].map(preprocess_text)
 
-    OUTPUT_PATH.to_csv(filtered_path, sep='\t', index=False)
+    df.to_csv(OUTPUT_PATH, sep='\t', index=False)
 
 
 if __name__ == '__main__':

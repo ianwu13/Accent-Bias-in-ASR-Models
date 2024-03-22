@@ -3,18 +3,20 @@ import pandas as pd
 from huggingface_hub import login
 from datasets import load_dataset
 import wave
+import json
+import os
 
 from utils import save_waveform
 
 
 VALID_SAMPLES_PATH = 'common_voice_16/preprocessed_tabular/validated.tsv'
 AUDIO_FILE_DIR = 'common_voice_16/audio'
-ACCENTS_MAP_PATH = 'accents_map.json'
+ACCENTS_MAP_PATH = 'common_voice_16/accents_map.json'
 
 
 def main():
     # Log into Hugging Face for data access - You will need an access token for this
-    login()
+    login('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')
 
     valid_samples = pd.read_csv(VALID_SAMPLES_PATH, sep='\t')
     accents_map = json.load(open(ACCENTS_MAP_PATH, 'r'))
@@ -52,14 +54,14 @@ def main():
 
                 matching_rows = valid_samples[(valid_samples['client_id'] == client_id) & (valid_samples['sentence'] == sentence) & (valid_samples['accents'] == accent)]
                 if len(matching_rows) == 0:
-                    wav_path = '/',join([AUDIO_FILE_DIR, 'not_found', wav_path])
+                    wav_path = '/'.join([AUDIO_FILE_DIR, 'not_found', wav_path])
                     
                     not_present_list.append(save_sample)
                 elif len(matching_rows) == 1:
-                    wav_path = '/',join([AUDIO_FILE_DIR, 'match_found', wav_path])
+                    wav_path = '/'.join([AUDIO_FILE_DIR, 'match_found', wav_path])
                     present_df = pd.concat([present_df, matching_rows])
                 else:
-                    wav_path = '/',join([AUDIO_FILE_DIR, 'multi_match', wav_path])
+                    wav_path = '/'.join([AUDIO_FILE_DIR, 'multi_match', wav_path])
                     matching_rows['save_path'] = wav_path
                     multi_match_df = pd.concat([multi_match_df, matching_rows])
                 

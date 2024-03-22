@@ -1,4 +1,5 @@
 import os
+import json
 import requests
 import argparse
 import pandas as pd
@@ -32,7 +33,7 @@ def save_and_get_sample_rate(audio_url, save_path):
             f.write(response.content)
         
         # Load the audio file and get the audio data and sample rate
-        _, sample_rate = librosa.load("temp_audio.wav", sr=None)
+        _, sample_rate = librosa.load(save_path, sr=None)
         return sample_rate
     else:
         print(f'Failed to fetch audio file at "{audio_url}" to save at "{save_path}"')

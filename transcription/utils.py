@@ -66,6 +66,12 @@ def load_sample(wav_path):
     return audio_array
 
 
+def load_wav_file(path, samp_rate):
+    dur = float(pydub.utils.mediainfo(path)['duration'])
+    audio_array, _ = librosa.load(path, duration=dur, sr=samp_rate)
+    return audio_array
+
+
 def store_transcription(transcription, storage_path):
     with open(storage_path, 'a') as f:
         f.write(transcription + '\n')

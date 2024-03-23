@@ -102,7 +102,7 @@ def main():
             wav_path = '/'.join([args.audio_out, 'samples', f'{counter}.wav'])
             reverse_wav_path = '/'.join([args.audio_out, 'reverse_samples', f'{counter}.wav'])
 
-            audio_wav_a = load_wav_file(sample_a['save_path'])
+            audio_wav_a = load_wav_file(sample_a['save_path'], sample_a['sample_rate'])
             audio_wav_a = adjust_sample_rate(
                 audio_wav_a, 
                 sample_a['sample_rate'], 
@@ -110,7 +110,7 @@ def main():
                 args.downsamp_method
             )
 
-            audio_wav_b = load_wav_file(sample_b['save_path'])
+            audio_wav_b = load_wav_file(sample_b['save_path'], sample_b['sample_rate'])
             audio_wav_b = adjust_sample_rate(
                 audio_wav_b, 
                 sample_b['sample_rate'], 

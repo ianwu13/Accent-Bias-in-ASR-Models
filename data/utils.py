@@ -3,6 +3,7 @@ import string
 import numpy as np
 import wave
 import librosa
+import pydub
 from scipy import signal
 
 
@@ -60,8 +61,9 @@ def adjust_sample_rate(sample, sample_sr, target_sr, method):
     return DOWNSAMPLING_REG[method](sample, sample_sr, target_sr)
 
 
-def load_wav_file(path):
-    audio_array, _ = librosa.open(path)
+def load_wav_file(path, samp_rate):
+    dur = float(pydub.utils.mediainfo(path)['duration'])
+    audio_array, _ = librosa.load(path, duration=dur, sr=samp_rate)
     return audio_array
 
 

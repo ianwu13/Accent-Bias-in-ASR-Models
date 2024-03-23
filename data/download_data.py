@@ -1,5 +1,6 @@
 import os
 import json
+import time
 import requests
 import argparse
 import pandas as pd
@@ -10,7 +11,7 @@ from utils import preprocess_transcription
 
 # Dataset specific, should not change
 DATASET_PATH = 'mozilla-foundation/common_voice_16_1'
-SPLITS = ['train', 'validation', 'test', 'other']
+SPLITS = ['train', 'validation', 'test'] # 'other'
 HEADERS = None
 
 
@@ -70,7 +71,17 @@ def process_batch(batch, valid_accents, accents_map, audio_dir):
 
 def download_split(dataset_path, split, download_batch_size, accents_map, output_dir):
     base_url = f'https://datasets-server.huggingface.co/rows?dataset={dataset_path}&config=en&split={split}'
-    split_sample_count = query('&'.join([base_url, 'length=1']))['num_rows_total']
+    # Handle errors for getting split sample count
+    try:
+        split_sample_count = query('&'.join([base_url, 'length=1']))['num_rows_total']
+    except:
+        time.sleep(60)
+        try:
+            split_sample_count = query('&'.join([base_url, 'length=1']))['num_rows_total']
+        except:
+            print(f'FAILED GETTING SAMPLE COUNT FOR SPLIT={split}')
+            return pd.DataFrame()
+
     audio_dir = '/'.join([output_dir, split])
 
     valid_accents = set(accents_map.keys())
@@ -80,11 +91,19 @@ def download_split(dataset_path, split, download_batch_size, accents_map, output
     while offset <= split_sample_count:
         batch_url = '&'.join([base_url, f'offset={offset}', f'length={download_batch_size}'])
 
-        batch = query(batch_url)
-        new_rows = process_batch(batch, valid_accents, accents_map, audio_dir)
-        rows.extend(new_rows)
+        try:
+            batch = query(batch_url)
+            new_rows = process_batch(batch, valid_accents, accents_map, audio_dir)
+            rows.extend(new_rows)
+        except:
+            print(f'FAILED_BATCH = {split}')
+            print(batch_url)
+            print()
 
         offset += download_batch_size
+        # Write to log file
+        with open('log.txt', 'a') as f:
+            f.write(f'{offset} / {split_sample_count} {split} samples processed. \n')
     
     df = pd.DataFrame.from_records(rows)
     return df

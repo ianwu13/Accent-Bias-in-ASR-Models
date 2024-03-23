@@ -3,7 +3,7 @@ import pandas as pd
 import wave
 from transformers import WhisperProcessor, WhisperForConditionalGeneration
 
-from utils import preprocess_transcription, adjust_sample_rate, load_sample, store_transcription, DOWNSAMPLING_REG
+from utils import preprocess_transcription, adjust_sample_rate, load_wav_file, store_transcription, DOWNSAMPLING_REG
 
 
 DATA_FILE_DIR = '../data/'
@@ -33,7 +33,9 @@ def transcribe_samples(
         sample = row[1]
 
         # Load sample and adjust sample rate
-        waveform_arr = load_sample(sample['corrected_path'])
+        waveform_arr = load_wav_file(sample['corrected_path'], sample['sample_rate'])
+        # waveform_arr = load_sample(sample['corrected_path'])
+
         waveform_arr = adjust_sample_rate(waveform_arr, sample['sample_rate'], sample_rate, downsamp_method)
 
         # Process sample

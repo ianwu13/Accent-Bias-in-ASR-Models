@@ -107,7 +107,7 @@ def main():
 
     transcriptions_data.to_csv(single_accent_output_file_path, sep='\t', index=False)
 
-    # get single accent transcriptions
+    # get multi accent transcriptions
     transcriptions_data = transcribe_samples(
         args.ma_data_tsv_path, 
         model, 

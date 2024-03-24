@@ -6,6 +6,7 @@ librosa==0.10.1
 nemo==5.3.1
 numpy==1.24.4
 pandas==1.4.4
+pydub==0.25.1
 requests==2.31.0
 scipy==1.9.1
 transformers==4.25.1

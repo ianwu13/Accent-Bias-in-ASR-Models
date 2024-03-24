@@ -112,15 +112,15 @@ def main():
     transcriptions_data.to_csv(single_accent_output_file_path, sep='\t', index=False)
 
     # get multi accent transcriptions
-    transcriptions_data = transcribe_samples(
-        args.ma_data_tsv_path, 
-        model, 
-        processor, 
-        sample_rate, 
-        args.downsamp_method, 
-        args.transcription_streaming_backup)
+    # transcriptions_data = transcribe_samples(
+    #     args.ma_data_tsv_path, 
+    #     model, 
+    #     processor, 
+    #     sample_rate, 
+    #     args.downsamp_method, 
+    #     args.transcription_streaming_backup)
 
-    transcriptions_data.to_csv(multi_accent_output_file_path, sep='\t', index=False)
+    # transcriptions_data.to_csv(multi_accent_output_file_path, sep='\t', index=False)
 
 
 if __name__ == '__main__':

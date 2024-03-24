@@ -1,4 +1,7 @@
 # Imports Here
+import sys
+sys.path.append('/project/glucas_540/ianwu/Accent-Bias-in-ASR-Models/storage/ffmpeg-6.1.1')
+
 import string
 import numpy as np
 import wave

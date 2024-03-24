@@ -2,6 +2,7 @@ import numpy as np
 import wave
 import soundfile as sf
 from scipy import signal
+import string
 
 
 def preprocess_transcription(raw_text: str) -> str:

@@ -31,7 +31,7 @@ def transcribe_samples(
     sample_reg['corrected_path'] = DATA_FILE_DIR + sample_reg['save_path']
     
     raw_transcriptions = model.transcribe(
-        audio=list(sample_reg['corrected_path']),
+        paths2audio_files=list(sample_reg['corrected_path']),  # Used to be audio
         batch_size=batch_size,  # batch size to run the inference with
     )
 

@@ -42,7 +42,7 @@ def transcribe_samples(
         input_values = processor(waveform_arr, sampling_rate=sample_rate, pad_to_multiple_of=3000, return_tensors="pt").input_features  # Batch size 1
         
         predicted_ids = model.generate(input_values)
-        transcription = processor.batch_decode(predicted_ids, skip_special_tokens=True)
+        transcription = processor.batch_decode(predicted_ids, skip_special_tokens=True)[0]
 
         # Store transcription
         raw_transcriptions.append(transcription)

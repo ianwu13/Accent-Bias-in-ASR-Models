@@ -3,7 +3,7 @@ sys.path.append('/project/glucas_540/ianwu/Accent-Bias-in-ASR-Models/storage/ffm
 
 import numpy as np
 import wave
-import pydub
+import soundfile as sf
 from scipy import signal
 
 
@@ -71,8 +71,9 @@ def load_sample(wav_path):
 
 
 def load_wav_file(path, samp_rate):
-    dur = float(pydub.utils.mediainfo(path)['duration'])
-    audio_array, _ = librosa.load(path, duration=dur, sr=samp_rate)
+    # dur = float(pydub.utils.mediainfo(path)['duration'])
+    # audio_array, _ = librosa.load(path, duration=dur, sr=samp_rate)
+    audio_array, _ = sf.read(path)
     return audio_array
 
 

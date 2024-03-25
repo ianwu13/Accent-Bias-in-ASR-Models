@@ -80,7 +80,7 @@ def main():
         help='Path to tsv registry for single accent audio samples')
     parser.add_argument('--ma_data_tsv_path', type=str, default='../data/cv16/multi.tsv',
         help='Path to tsv registry for multi accent audio samples')
-    parser.add_argument('--downsamp_method', type=str, default='None', options=list(DOWNSAMPLING_REG.keys()),
+    parser.add_argument('--downsamp_method', type=str, default='None', choices=list(DOWNSAMPLING_REG.keys()),
         help='Method to use for downsampling')
         
     parser.add_argument('--transcription_streaming_backup', type=str, default=None,

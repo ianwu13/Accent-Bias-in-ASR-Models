@@ -1,5 +1,6 @@
 from jiwer import wer
 from evaluate import load
+import jaro
 
 
 class Evaluator():
@@ -32,6 +33,15 @@ class Evaluator():
             return [self.cer_metric.compute(predictions=[p], references=[r]) for r, p in zip(ref, pred)]
         else:
             return None
+
+
+    def jaro_winkler(self, pred: str|list, ref: str|list) -> float:
+        # Returns character error rate (CER) between some predicted text and a reference (true label) text
+        if type(pred) == str and type(ref) == str:
+            pred = [pred]
+            ref = [ref]
+        
+        return [jaro.jaro_metric(p, r) for p, r in sip(pred, ref)]
 
 
     def bertscore(self, pred: str|list, ref: str|list) -> float:

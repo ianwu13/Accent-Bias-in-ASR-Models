@@ -1,6 +1,7 @@
 datasets==2.4.0
 evaluate==0.4.1
 huggingface_hub==0.11.1
+jaro-winkler==2.0.3
 jiwer==3.0.3
 librosa==0.10.1
 nemo==5.3.1

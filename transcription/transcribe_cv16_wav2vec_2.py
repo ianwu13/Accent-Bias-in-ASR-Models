@@ -1,3 +1,4 @@
+import os
 import argparse
 import pandas as pd
 from datasets import load_dataset
@@ -30,8 +31,18 @@ def transcribe_samples(
     # Correct paths for this script
     sample_reg['corrected_path'] = DATA_FILE_DIR + sample_reg['save_path']
 
+    if transcription_streaming_backup is not None and os.path.exists(transcription_streaming_backup):
+        start_pt = len(open(transcription_streaming_backup, 'r').readlines())
+    else:
+        start_pt = 0
+
     raw_transcriptions = []
+    num_processed = 0
     for row in sample_reg.iterrows():
+        if num_processed < start_pt:
+            num_processed += 1
+            continue
+
         sample = row[1]
 
         # Load sample and adjust sample rate

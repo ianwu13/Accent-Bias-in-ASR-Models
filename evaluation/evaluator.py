@@ -39,7 +39,7 @@ class Evaluator():
             pred = [pred]
             ref = [ref]
         
-        return [jaro.jaro_metric(p, r) for p, r in sip(pred, ref)]
+        return [jaro.jaro_metric(p, r) for p, r in zip(pred, ref)]
 
 
     def bertscore(self, pred: str|list, ref: str|list) -> float:

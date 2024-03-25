@@ -50,6 +50,13 @@ def transcribe_samples(
         # waveform_arr = load_sample(sample['corrected_path'])
 
         waveform_arr = adjust_sample_rate(waveform_arr, sample['sample_rate'], sample_rate, downsamp_method)
+        if len(waveform_arr) > 6841000:
+            # Record Fail and avoid OOM error
+            transcription = f'OOM_SAMPLE - {sample["corrected_path"]}'
+            raw_transcriptions.append(transcription)
+            if transcription_streaming_backup is not None:
+                store_transcription(transcription, transcription_streaming_backup)
+            continue
 
         # Process sample
         input_values = processor(waveform_arr, sampling_rate=sample_rate, return_tensors="pt", padding="longest").input_values  # Batch size 1

@@ -1,4 +1,3 @@
-from jiwer import wer
 from evaluate import load
 import jaro
 from typing import Union
@@ -6,21 +5,25 @@ from typing import Union
 
 class Evaluator():
     def __init__(self, bert_model='distilbert-base-uncased', preload_bertscore_model=False):
+        self.wer_metric = None
+        self.cer_metric = None
+
         self.bert_model = bert_model
         if preload_bertscore_model:
             self.bertscore_model = load('bertscore')
         else:
             self.bertscore_model = None
 
-        self.cer_metric = None
-
 
     def wer(self, pred: Union[str, list], ref: Union[str, list]) -> float:
         # Returns word error rate (WER) between some predicted text and a reference (true label) text
+        if self.wer_metric is None:
+            self.wer_metric = load('cer')
+        
         if type(pred) == str and type(ref) == str:
-            return wer(ref, pred)
+            return self.wer_metric.compute(predictions=[pred], references=[ref])
         elif type(pred) == list and type(ref) == list:
-            return [wer(r, p) for r, p in zip(ref, pred)]
+            return [self.wer_metric.compute(predictions=[p], references=[r]) for r, p in zip(ref, pred)]
         else:
             return None
 

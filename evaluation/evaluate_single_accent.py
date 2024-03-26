@@ -40,6 +40,9 @@ def main():
     args = parser.parse_args()
 
     transcriptions = pd.read_csv(args.transcriptions_path, sep='\t')
+    # Drop rows with transcription issues
+    transcriptions = transcriptions.drop(transcriptions.index[transcriptions['preprocessed_transcriptions'].isna()])
+
     evaluator = Evaluator(bert_model=args.bertscore_model, preload_bertscore_model=True)
 
     transcriptions_by_ag = {ag.replace('/', '_').replace('-', '_').replace('.', '_').replace(' ', '_'): rows for ag, rows in transcriptions.groupby('accent_group')}
@@ -66,6 +69,10 @@ def main():
     for ag, res in results.items():
         # Create subplots
         fig, axs = plt.subplots(6, figsize=(8, 10))
+
+        # Filter values > 1
+        for k in res.keys():
+            res[k] = [v for v in res[k] if v < 1.01]
 
         # Plot histograms
         axs[0].hist(res['wer'], bins=30, color='skyblue')

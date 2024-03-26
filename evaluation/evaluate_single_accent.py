@@ -13,6 +13,7 @@ def evaluate_transcription_set(df, evaluator):
     wer = evaluator.wer(pred, ref)
     cer = evaluator.cer(pred, ref)
     bertscore = evaluator.bertscore(pred, ref)
+    jaro_winkler = evaluator(pred, ref)
 
     return {
         'wer': wer,
@@ -20,6 +21,7 @@ def evaluate_transcription_set(df, evaluator):
         'bertscore_precision': bertscore['precision'],
         'bertscore_recall': bertscore['recall'],
         'bertscore_f1': bertscore['f1'],
+        'jaro_winkler': jaro_winkler
     }
 
 
@@ -62,7 +64,7 @@ def main():
     # plot distributions of scores in histograms
     for ag, res in results.items():
         # Create subplots
-        fig, axs = plt.subplots(5, figsize=(8, 10))
+        fig, axs = plt.subplots(6, figsize=(8, 10))
 
         # Plot histograms
         axs[0].hist(res['wer'], bins=30, color='skyblue')
@@ -79,6 +81,9 @@ def main():
 
         axs[4].hist(res['bertscore_f1'], bins=30, color='orchid')
         axs[4].set_title(f'Histogram for Distribution of BERTScore_F1 for AccentGroup={ag}')
+
+        axs[4].hist(res['jaro_winkler'], bins=30, color='orchid')
+        axs[4].set_title(f'Histogram for Distribution of Jaro-Winkler Distance for AccentGroup={ag}')
 
         # Adjust layout
         plt.tight_layout()

@@ -42,8 +42,8 @@ def main():
     transcriptions = pd.read_csv(args.transcriptions_path, sep='\t')
     evaluator = Evaluator(bert_model=args.bertscore_model, preload_bertscore_model=True)
 
-    transcriptions_by_ag = {ag: rows for ag, rows in transcriptions.groupby('accent_group')}
-    results = {ag.replace('/', '_').replace('-', '_').replace('.', '_').replace(' ', '_'): evaluate_transcription_set(rows, evaluator) for ag, rows in transcriptions_by_ag.items()}
+    transcriptions_by_ag = {ag.replace('/', '_').replace('-', '_').replace('.', '_').replace(' ', '_'): rows for ag, rows in transcriptions.groupby('accent_group')}
+    results = {ag: evaluate_transcription_set(rows, evaluator) for ag, rows in transcriptions_by_ag.items()}
 
     # Make sure output_dirs make sense
     if not os.path.exists(args.outputs_dir):

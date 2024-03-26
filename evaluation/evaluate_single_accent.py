@@ -2,18 +2,19 @@ import os
 import json
 import argparse
 import pandas as pd
+import matplotlib.pyplot as plt
 
 from evaluator import Evaluator
 
 
 def evaluate_transcription_set(df, evaluator):
     pred = df['preprocessed_transcriptions'].tolist()
-    ref = df['preprocessed_sentence']
+    ref = df['preprocessed_sentence'].tolist()
 
     wer = evaluator.wer(pred, ref)
     cer = evaluator.cer(pred, ref)
     bertscore = evaluator.bertscore(pred, ref)
-    jaro_winkler = evaluator(pred, ref)
+    jaro_winkler = evaluator.jaro_winkler(pred, ref)
 
     return {
         'wer': wer,
@@ -42,7 +43,7 @@ def main():
     evaluator = Evaluator(bert_model=args.bertscore_model, preload_bertscore_model=True)
 
     transcriptions_by_ag = {ag: rows for ag, rows in transcriptions.groupby('accent_group')}
-    results = {ag: evaluate_transcription_set(rows, evaluator) for ag, rows in transcriptions_by_ag.items()}
+    results = {ag.replace('/', '_').replace('-', '_').replace('.', '_').replace(' ', '_'): evaluate_transcription_set(rows, evaluator) for ag, rows in transcriptions_by_ag.items()}
 
     # Make sure output_dirs make sense
     if not os.path.exists(args.outputs_dir):
@@ -54,12 +55,12 @@ def main():
 
     # record results in dataframe
     for ag, res in results.items():
-        for metric, scores in res.items:
+        for metric, scores in res.items():
             transcriptions_by_ag[ag][metric] = scores
     results_df = pd.concat(list(transcriptions_by_ag.values()))
     # write results to tsv file
     results_path = '/'.join([args.outputs_dir, 'sa_transcriptions.tsv'])
-    results_df.to_tsv(results_path, sep='\t', index=False)
+    results_df.to_csv(results_path, sep='\t', index=False)
 
     # plot distributions of scores in histograms
     for ag, res in results.items():
@@ -94,4 +95,4 @@ def main():
 
 
 if __name__ == '__main__':
-    pass
+    main()

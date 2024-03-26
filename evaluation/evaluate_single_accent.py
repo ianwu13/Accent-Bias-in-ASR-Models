@@ -2,26 +2,28 @@ import os
 import json
 import argparse
 import pandas as pd
+import matplotlib.pyplot as plt
 
 from evaluator import Evaluator
 
 
 def evaluate_transcription_set(df, evaluator):
     pred = df['preprocessed_transcriptions'].tolist()
-    ref = df['preprocessed_sentence']
+    ref = df['preprocessed_sentence'].tolist()
 
     wer = evaluator.wer(pred, ref)
+    # print(wer)
     cer = evaluator.cer(pred, ref)
-    bertscore = evaluator.bertscore(pred, ref)
-    jaro_winkler = evaluator(pred, ref)
+    # bertscore = evaluator.bertscore(pred, ref)
+    # jaro_winkler = evaluator.jaro_winkler(pred, ref)
 
     return {
         'wer': wer,
         'cer': cer,
-        'bertscore_precision': bertscore['precision'],
-        'bertscore_recall': bertscore['recall'],
-        'bertscore_f1': bertscore['f1'],
-        'jaro_winkler': jaro_winkler
+        # 'bertscore_precision': bertscore['precision'],
+        # 'bertscore_recall': bertscore['recall'],
+        # 'bertscore_f1': bertscore['f1'],
+        # 'jaro_winkler': jaro_winkler
     }
 
 
@@ -48,23 +50,26 @@ def main():
     if not os.path.exists(args.outputs_dir):
         os.makedirs(args.outputs_dir)
     for ag in results.keys():
+        if '/' in ag:
+            ag = ag.replace('/','')
         tmp_pth = '/'.join([args.outputs_dir, ag])
         if not os.path.exists(tmp_pth):
             os.mkdir(tmp_pth)
 
     # record results in dataframe
     for ag, res in results.items():
-        for metric, scores in res.items:
+        for metric, scores in res.items():
             transcriptions_by_ag[ag][metric] = scores
     results_df = pd.concat(list(transcriptions_by_ag.values()))
     # write results to tsv file
     results_path = '/'.join([args.outputs_dir, 'sa_transcriptions.tsv'])
-    results_df.to_tsv(results_path, sep='\t', index=False)
+    results_df.to_csv(results_path, sep='\t', index=False)
 
     # plot distributions of scores in histograms
     for ag, res in results.items():
         # Create subplots
         fig, axs = plt.subplots(6, figsize=(8, 10))
+        # print('WER:', res['wer'])
 
         # Plot histograms
         axs[0].hist(res['wer'], bins=30, color='skyblue')
@@ -73,17 +78,17 @@ def main():
         axs[1].hist(res['cer'], bins=30, color='salmon')
         axs[1].set_title(f'Histogram for Distribution of CER for AccentGroup={ag}')
 
-        axs[2].hist(res['bertscore_precision'], bins=30, color='lightgreen')
-        axs[2].set_title(f'Histogram for Distribution of BERTScore_Precision for AccentGroup={ag}')
+        # axs[2].hist(res['bertscore_precision'], bins=30, color='lightgreen')
+        # axs[2].set_title(f'Histogram for Distribution of BERTScore_Precision for AccentGroup={ag}')
 
-        axs[3].hist(res['bertscore_recall'], bins=30, color='gold')
-        axs[3].set_title(f'Histogram for Distribution of BERTScore_Recall for AccentGroup={ag}')
+        # axs[3].hist(res['bertscore_recall'], bins=30, color='gold')
+        # axs[3].set_title(f'Histogram for Distribution of BERTScore_Recall for AccentGroup={ag}')
 
-        axs[4].hist(res['bertscore_f1'], bins=30, color='orchid')
-        axs[4].set_title(f'Histogram for Distribution of BERTScore_F1 for AccentGroup={ag}')
+        # axs[4].hist(res['bertscore_f1'], bins=30, color='orchid')
+        # axs[4].set_title(f'Histogram for Distribution of BERTScore_F1 for AccentGroup={ag}')
 
-        axs[4].hist(res['jaro_winkler'], bins=30, color='orchid')
-        axs[4].set_title(f'Histogram for Distribution of Jaro-Winkler Distance for AccentGroup={ag}')
+        # axs[4].hist(res['jaro_winkler'], bins=30, color='orchid')
+        # axs[4].set_title(f'Histogram for Distribution of Jaro-Winkler Distance for AccentGroup={ag}')
 
         # Adjust layout
         plt.tight_layout()
@@ -94,4 +99,4 @@ def main():
 
 
 if __name__ == '__main__':
-    pass
+    main()

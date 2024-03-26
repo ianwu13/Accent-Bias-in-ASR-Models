@@ -83,8 +83,8 @@ def main():
         axs[4].hist(res['bertscore_f1'], bins=30, color='orchid')
         axs[4].set_title(f'Histogram for Distribution of BERTScore_F1 for AccentGroup={ag}')
 
-        axs[4].hist(res['jaro_winkler'], bins=30, color='orchid')
-        axs[4].set_title(f'Histogram for Distribution of Jaro-Winkler Distance for AccentGroup={ag}')
+        axs[5].hist(res['jaro_winkler'], bins=30, color='orchid')
+        axs[5].set_title(f'Histogram for Distribution of Jaro-Winkler Distance for AccentGroup={ag}')
 
         # Adjust layout
         plt.tight_layout()

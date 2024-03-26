@@ -6,6 +6,7 @@ import jaro
 class Evaluator():
     def __init__(self, bert_model='distilbert-base-uncased', preload_bertscore_model=False):
         self.bert_model = bert_model
+        self.cer_metric = load('cer')
         if preload_bertscore_model:
             self.bertscore_model = load('bertscore')
 

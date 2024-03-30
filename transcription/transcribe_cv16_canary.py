@@ -56,15 +56,15 @@ def main():
         help='File to save transcriptions to as they are generated in case of backup')
     args = parser.parse_args()
 
-    model = load_model(args.model)
+    model = load_model()
 
     # Generate output paths
     splt_pth = args.sa_data_tsv_path.split('/')
-    splt_pth[-1] = '_'.join(['sa_transcriptions', args.model.replace('/', '_').replace('-', '_').replace('.', '_'), splt_pth[-1]])
+    splt_pth[-1] = '_'.join(['sa_transcriptions', '_canary', splt_pth[-1]])
     single_accent_output_file_path = '/'.join(splt_pth)
 
     splt_pth = args.ma_data_tsv_path.split('/')
-    splt_pth[-1] = '_'.join(['ma_transcriptions', args.model.replace('/', '_').replace('-', '_').replace('.', '_'), splt_pth[-1]])
+    splt_pth[-1] = '_'.join(['ma_transcriptions', '_canary', splt_pth[-1]])
     multi_accent_output_file_path = '/'.join(splt_pth)
 
     # get single accent transcriptions

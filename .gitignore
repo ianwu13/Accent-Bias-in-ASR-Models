@@ -163,6 +163,8 @@ cython_debug/
 data/common_voice_16/**
 slurms/
 storage/
+evaluation/results
+evaluation/plotting
 
 # Code environments
 *.code-workspace

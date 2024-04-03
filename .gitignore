@@ -160,6 +160,7 @@ cython_debug/
 #.idea/
 
 # Custom - Ian
+.DS_Store
 data/common_voice_16/**
 slurms/
 storage/

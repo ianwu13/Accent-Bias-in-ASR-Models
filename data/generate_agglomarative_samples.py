@@ -12,7 +12,7 @@ LOG_RATE = 100  # How often to print number of samples generated so far
 
 
 def main():
-    parser = argparse.ArgumentParser(description='selfplaying script')
+    parser = argparse.ArgumentParser(description='')
     # input sprcifications
     parser.add_argument('--sa_data_tsv_path', type=str, default='cv16/all.tsv',
         help='Path to tsv registry for single accent audio samples')
@@ -26,7 +26,7 @@ def main():
         help='Number of samples to make for each accent group pairing')
     parser.add_argument('--common_sample_rate', type=int, default=16000,
         help='Common sample rate to convert audio samples to')
-    parser.add_argument('--downsamp_method', type=str, default='None', options=list(DOWNSAMPLING_REG.keys()),
+    parser.add_argument('--downsamp_method', type=str, default='resample', options=list(DOWNSAMPLING_REG.keys()),
         help='Method to use for downsampling')
     
     args = parser.parse_args()
@@ -53,7 +53,7 @@ def main():
             samples_by_accent_group[ag] = samples_by_accent_group[ag].drop_duplicates()
         samples_by_accent_group[ag] = samples_by_accent_group[ag].iloc[:args.samples_per_pair]
     
-    accent_group_pair = combinations(samples_by_accent_group.keys(), 2)
+    accent_group_pair = list(combinations(samples_by_accent_group.keys(), 2)) + [(k, k) for k in samples_by_accent_group.keys()]
 
     # COLUMNS FOR MULTI-ACCENT SAMPLES_REG
     ma_samples_dict = {

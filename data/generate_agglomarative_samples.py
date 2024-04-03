@@ -26,7 +26,7 @@ def main():
         help='Number of samples to make for each accent group pairing')
     parser.add_argument('--common_sample_rate', type=int, default=16000,
         help='Common sample rate to convert audio samples to')
-    parser.add_argument('--downsamp_method', type=str, default='resample', options=list(DOWNSAMPLING_REG.keys()),
+    parser.add_argument('--downsamp_method', type=str, default='resample', choices=list(DOWNSAMPLING_REG.keys()),
         help='Method to use for downsampling')
     
     args = parser.parse_args()

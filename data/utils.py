@@ -67,8 +67,10 @@ def load_wav_file(path, samp_rate):
     return audio_array
 
 
-def save_waveform(wav_path, audio_array: np.ndarray, sample_rate):
+def save_waveform(wav_path: str, audio_array: np.ndarray, sample_rate: int):
     # Save waveform to file
-    with wave.open(wav_path, 'w') as f:
-        f.setparams((1, 2, sample_rate, audio_array.size, 'NONE', ''))
-        f.writeframes((audio_array * (2 ** 15 - 1)).astype("<h").tobytes())
+    
+    # with wave.open(wav_path, 'w') as f:
+    #     f.setparams((1, 2, sample_rate, audio_array.size, 'NONE', ''))
+    #     f.writeframes((audio_array * (2 ** 15 - 1)).astype("<h").tobytes())
+    sf.write(wav_path, audio_array, sample_rate)

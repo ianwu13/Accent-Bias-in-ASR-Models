@@ -50,7 +50,7 @@ def main():
                 samples_by_accent_group[ag].sample(frac=1, random_state=RANDOM_SEED)
                     .iloc[:min(500 - len(samples_by_accent_group[ag]), len(samples_by_accent_group[ag]))]
                 ])
-            samples_by_accent_group[ag] = samples_by_accent_group[ag].drop_duplicates()
+            # samples_by_accent_group[ag] = samples_by_accent_group[ag].drop_duplicates()
         samples_by_accent_group[ag] = samples_by_accent_group[ag].iloc[:args.samples_per_pair]
     
     accent_group_pair = list(combinations(samples_by_accent_group.keys(), 2)) + [(k, k) for k in samples_by_accent_group.keys()]
@@ -95,8 +95,8 @@ def main():
         df_b = samples_by_accent_group[accent_group_b]
         for a, b in zip(df_a.iterrows(), df_b.iterrows()):
             row_idx = counter
-            sample_a = a.to_json()
-            sample_b = b.to_json()
+            sample_a = a[1]  # .to_json()
+            sample_b = b[1]  # .to_json()
 
             # Generate/save multi-accent sample
             wav_path = '/'.join([args.audio_out, 'samples', f'{counter}.wav'])
@@ -118,43 +118,44 @@ def main():
                 args.downsamp_method
             )
             
-            wav_path = np.concatenate([audio_wav_a, audio_wav_b])
-            reverse_wav_path = np.concatenate([audio_wav_b, audio_wav_a])
+            waveform = np.concatenate([audio_wav_a, audio_wav_b])
+            reverse_waveform = np.concatenate([audio_wav_b, audio_wav_a])
 
-            save_waveform(wav_path, wav_path, args.common_sample_rate)
-            save_waveform(reverse_wav_path, reverse_wav_path, args.common_sample_rate)
+            save_waveform(wav_path, waveform, args.common_sample_rate)
+            save_waveform(reverse_wav_path, reverse_waveform, args.common_sample_rate)
+            print('SAVED')
 
             # Store values in ma_samples_df
-            ma_samples_df['row_idx'].append(counter)
+            ma_samples_dict['row_idx'].append(counter)
             # Audio file info
-            ma_samples_df['wav_path'].append(wav_path)
-            ma_samples_df['reverse_wav_path'].append(wav_path)
-            ma_samples_df['path_audio_a'].append(sample_a['save_path'])
-            ma_samples_df['path_audio_b'].append(sample_b['save_path'])
-            ma_samples_df['num_samples_a'].append(len(audio_wav_a))
-            ma_samples_df['num_samples_b'].append(len(audio_wav_b))
-            ma_samples_df['accent_a'].append(sample_a['accent'])
-            ma_samples_df['accent_b'].append(sample_b['accent'])
-            ma_samples_df['accent_group_a'].append(accent_group_a)
-            ma_samples_df['accent_group_b'].append(accent_group_b)
+            ma_samples_dict['wav_path'].append(wav_path)
+            ma_samples_dict['reverse_wav_path'].append(wav_path)
+            ma_samples_dict['path_audio_a'].append(sample_a['save_path'])
+            ma_samples_dict['path_audio_b'].append(sample_b['save_path'])
+            ma_samples_dict['num_samples_a'].append(len(audio_wav_a))
+            ma_samples_dict['num_samples_b'].append(len(audio_wav_b))
+            ma_samples_dict['accent_a'].append(sample_a['accent'])
+            ma_samples_dict['accent_b'].append(sample_b['accent'])
+            ma_samples_dict['accent_group_a'].append(accent_group_a)
+            ma_samples_dict['accent_group_b'].append(accent_group_b)
             # Sample rate info
-            ma_samples_df['sample_rate_a'].append(sample_a['sample_rate'])
-            ma_samples_df['sample_rate_b'].append(sample_b['sample_rate'])
-            ma_samples_df['common_sample_rate'].append(args.common_sample_rate)
-            ma_samples_df['downsamp_method'].append(args.downsamp_method)
+            ma_samples_dict['sample_rate_a'].append(sample_a['sample_rate'])
+            ma_samples_dict['sample_rate_b'].append(sample_b['sample_rate'])
+            ma_samples_dict['common_sample_rate'].append(args.common_sample_rate)
+            ma_samples_dict['downsamp_method'].append(args.downsamp_method)
             # transcription_info
-            ma_samples_df['sentence_a'].append(sample_a['sentence'])
-            ma_samples_df['sentence_b'].append(sample_b['sentence'])
+            ma_samples_dict['sentence_a'].append(sample_a['sentence'])
+            ma_samples_dict['sentence_b'].append(sample_b['sentence'])
             preprocessed_sentence_a = preprocess_transcription(sample_a['sentence'])
             preprocessed_sentence_b = preprocess_transcription(sample_b['sentence'])
-            ma_samples_df['preprocessed_sentence_a'].append(preprocessed_sentence_a)
-            ma_samples_df['preprocessed_sentence_b'].append(preprocessed_sentence_b)
-            ma_samples_df['combined_sentence'].append(' '.join([preprocessed_sentence_a, preprocessed_sentence_b]))
+            ma_samples_dict['preprocessed_sentence_a'].append(preprocessed_sentence_a)
+            ma_samples_dict['preprocessed_sentence_b'].append(preprocessed_sentence_b)
+            ma_samples_dict['combined_sentence'].append(' '.join([preprocessed_sentence_a, preprocessed_sentence_b]))
             # other stats
-            ma_samples_df['age_a'].append(sample_a['age'])
-            ma_samples_df['age_b'].append(sample_b['age'])
-            ma_samples_df['gender_a'].append(sample_a['gender'])
-            ma_samples_df['gender_b'].append(sample_b['gender'])
+            ma_samples_dict['age_a'].append(sample_a['age'])
+            ma_samples_dict['age_b'].append(sample_b['age'])
+            ma_samples_dict['gender_a'].append(sample_a['gender'])
+            ma_samples_dict['gender_b'].append(sample_b['gender'])
 
             counter += 1
             if counter % LOG_RATE == 0:

@@ -5,7 +5,7 @@ import wave
 import numpy as np
 import pandas as pd
 
-from utils import preprocess_transcription, adjust_sample_rate, save_waveform, DOWNSAMPLING_REG, RANDOM_SEED
+from utils import preprocess_transcription, load_wav_file, adjust_sample_rate, save_waveform, DOWNSAMPLING_REG, RANDOM_SEED
 
 
 LOG_RATE = 100  # How often to print number of samples generated so far

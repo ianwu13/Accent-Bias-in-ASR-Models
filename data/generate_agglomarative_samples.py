@@ -165,7 +165,7 @@ def main():
 
     # Write output files to tsv file
     ma_samples_df = pd.DataFrame(ma_samples_dict)
-    ma_samples_df.to_csv(arg.out_tsv_path, sep='\t', index=False)
+    ma_samples_df.to_csv(args.out_tsv_path, sep='\t', index=False)
 
 
 if __name__ == '__main__':

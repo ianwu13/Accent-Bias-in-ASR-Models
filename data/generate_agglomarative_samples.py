@@ -93,6 +93,11 @@ def main():
         accent_group_b = pair[1]
         df_a = samples_by_accent_group[accent_group_a]
         df_b = samples_by_accent_group[accent_group_b]
+        # Avoid matching identical/same samples
+        if accent_group_a == accent_group_b:
+            df_b = df_b.copy()
+            for c in df_b.columns:
+                df_b[c] = np.roll(df_b[c], 1)
         for a, b in zip(df_a.iterrows(), df_b.iterrows()):
             row_idx = counter
             sample_a = a[1]  # .to_json()

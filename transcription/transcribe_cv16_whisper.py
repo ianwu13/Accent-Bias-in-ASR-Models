@@ -23,11 +23,12 @@ def transcribe_samples(
         processor, 
         sample_rate, 
         downsamp_method, 
-        transcription_streaming_backup):
+        transcription_streaming_backup,
+        path_col='save_path'):
     # Get registry for audio samples
     sample_reg = pd.read_csv(data_tsv_path, sep='\t')
     # Correct paths for this script
-    sample_reg['corrected_path'] = DATA_FILE_DIR + sample_reg['save_path']
+    sample_reg['corrected_path'] = DATA_FILE_DIR + sample_reg[path_col]
 
     if transcription_streaming_backup is not None and os.path.exists(transcription_streaming_backup):
         start_pt = len(open(transcription_streaming_backup, 'r').readlines())
@@ -49,7 +50,8 @@ def transcribe_samples(
         waveform_arr = load_wav_file(sample['corrected_path'], sample['sample_rate'])
         # waveform_arr = load_sample(sample['corrected_path'])
 
-        waveform_arr = adjust_sample_rate(waveform_arr, sample['sample_rate'], sample_rate, downsamp_method)
+        if downsamp_method is not None:
+            waveform_arr = adjust_sample_rate(waveform_arr, sample['sample_rate'], sample_rate, downsamp_method)
 
         # Process sample
         input_values = processor(waveform_arr, sampling_rate=sample_rate, pad_to_multiple_of=3000, return_tensors="pt").input_features  # Batch size 1
@@ -110,6 +112,8 @@ def main():
     splt_pth = args.ma_data_tsv_path.split('/')
     splt_pth[-1] = '_'.join(['ma_transcriptions', args.model.replace('/', '_').replace('-', '_').replace('.', '_'), splt_pth[-1]])
     multi_accent_output_file_path = '/'.join(splt_pth)
+    splt_pth[-1] = 'reversed_' + splt_pth[-1]
+    reversed_multi_accent_output_file_path = '/'.join(splt_pth)
 
     # get single accent transcriptions
     transcriptions_data = transcribe_samples(
@@ -128,10 +132,23 @@ def main():
         model, 
         processor, 
         sample_rate, 
-        args.downsamp_method, 
-        args.transcription_streaming_backup)
+        None, 
+        args.transcription_streaming_backup,
+        path_col='wav_path')
 
     transcriptions_data.to_csv(multi_accent_output_file_path, sep='\t', index=False)
+
+    # get multi accent transcriptions
+    transcriptions_data = transcribe_samples(
+        args.ma_data_tsv_path, 
+        model, 
+        processor, 
+        sample_rate, 
+        None, 
+        args.transcription_streaming_backup.replace('.txt', '_rev.txt'),
+        path_col='reverse_wav_path')
+
+    transcriptions_data.to_csv(reversed_multi_accent_output_file_path, sep='\t', index=False)
 
 
 if __name__ == '__main__':

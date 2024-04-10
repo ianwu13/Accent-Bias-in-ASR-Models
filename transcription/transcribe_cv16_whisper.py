@@ -24,7 +24,8 @@ def transcribe_samples(
         sample_rate, 
         downsamp_method, 
         transcription_streaming_backup,
-        path_col='save_path'):
+        path_col='save_path',
+        sr_col='sample_rate'):
     # Get registry for audio samples
     sample_reg = pd.read_csv(data_tsv_path, sep='\t')
     # Correct paths for this script
@@ -47,11 +48,11 @@ def transcribe_samples(
         sample = row[1]
 
         # Load sample and adjust sample rate
-        waveform_arr = load_wav_file(sample['corrected_path'], sample['sample_rate'])
+        waveform_arr = load_wav_file(sample['corrected_path'], sample[sr_col])
         # waveform_arr = load_sample(sample['corrected_path'])
 
         if downsamp_method is not None:
-            waveform_arr = adjust_sample_rate(waveform_arr, sample['sample_rate'], sample_rate, downsamp_method)
+            waveform_arr = adjust_sample_rate(waveform_arr, sample[sr_col], sample_rate, downsamp_method)
 
         # Process sample
         input_values = processor(waveform_arr, sampling_rate=sample_rate, pad_to_multiple_of=3000, return_tensors="pt").input_features  # Batch size 1
@@ -134,7 +135,8 @@ def main():
         sample_rate, 
         None, 
         args.transcription_streaming_backup,
-        path_col='wav_path')
+        path_col='wav_path',
+        sr_col='common_sample_rate')
 
     transcriptions_data.to_csv(multi_accent_output_file_path, sep='\t', index=False)
 
@@ -146,7 +148,8 @@ def main():
         sample_rate, 
         None, 
         args.transcription_streaming_backup.replace('.txt', '_rev.txt'),
-        path_col='reverse_wav_path')
+        path_col='reverse_wav_path',
+        sr_col='common_sample_rate')
 
     transcriptions_data.to_csv(reversed_multi_accent_output_file_path, sep='\t', index=False)
 

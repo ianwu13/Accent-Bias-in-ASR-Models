@@ -134,7 +134,7 @@ def main():
             ma_samples_dict['row_idx'].append(counter)
             # Audio file info
             ma_samples_dict['wav_path'].append(wav_path)
-            ma_samples_dict['reverse_wav_path'].append(wav_path)
+            ma_samples_dict['reverse_wav_path'].append(reverse_wav_path)
             ma_samples_dict['path_audio_a'].append(sample_a['save_path'])
             ma_samples_dict['path_audio_b'].append(sample_b['save_path'])
             ma_samples_dict['num_samples_a'].append(len(audio_wav_a))
@@ -156,6 +156,7 @@ def main():
             ma_samples_dict['preprocessed_sentence_a'].append(preprocessed_sentence_a)
             ma_samples_dict['preprocessed_sentence_b'].append(preprocessed_sentence_b)
             ma_samples_dict['combined_sentence'].append(' '.join([preprocessed_sentence_a, preprocessed_sentence_b]))
+            ma_samples_dict['reversed_combined_sentence'].append(' '.join([preprocessed_sentence_b, preprocessed_sentence_a]))
             # other stats
             ma_samples_dict['age_a'].append(sample_a['age'])
             ma_samples_dict['age_b'].append(sample_b['age'])

@@ -34,6 +34,7 @@ def transcribe_samples(
     if transcription_streaming_backup is not None and os.path.exists(transcription_streaming_backup):
         start_pt = len(open(transcription_streaming_backup, 'r').readlines())
         raw_transcriptions = open(transcription_streaming_backup, 'r').readlines()
+        raw_transcriptions = [t.strip() for t in raw_transcriptions]
     else:
         start_pt = 0
         raw_transcriptions = []

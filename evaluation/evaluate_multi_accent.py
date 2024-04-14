@@ -10,10 +10,8 @@ from tqdm import tqdm
 from evaluator import Evaluator
 
 
-API_TOKEN = 'FILL_LOCALLY'
-
 API_URL = "https://api-inference.huggingface.co/models/sentence-transformers/all-MiniLM-L6-v2"
-HEADERS = {"Authorization": f"Bearer {API_TOKEN}"}
+HEADERS = {"Authorization": ""}
 
 
 def get_subsentence_similarities(reference, candidates: list):
@@ -79,6 +77,9 @@ def get_transcription_subsentence(sentence_1, sentence_2, transcription_tokens):
 
     sims_1 = get_subsentence_similarities(sentence_1, candidates_1)
     sims_2 = get_subsentence_similarities(sentence_2, candidates_2)
+    if (sims_1 is None) or (sims_1 is None):
+        print(f'Failed Call: SENTENCE_1: "{sentence_1}", SENTENCE_2: "{sentence_2}", TRANSCRIPTION_TOKENS: {transcription_tokens}')
+        return '', ''
 
     max_sim_splt = np.argmax([s1 + s2 for s1, s2 in zip(sims_1, sims_2)])
     return candidates_1[max_sim_splt], candidates_2[max_sim_splt]
@@ -140,9 +141,14 @@ def main():
     parser = argparse.ArgumentParser(description='Script to evaluate performance of a model across different accents')
     
     parser.add_argument('--transcriptions_path', type=str, help='Path to tsv file containing transcriptions')
+    parser.add_argument('--api_token', type=str, help='Hugging Face API token to get sentence similarity')
     parser.add_argument('--output_path', type=str, help='Directory to write results to')
     
     args = parser.parse_args()
+
+    # Set authorization
+    global HEADERS
+    HEADERS["Authorization"] = f"Bearer {args.api_token}"
 
     df = pd.read_csv(args.transcriptions_path, sep='\t')
 

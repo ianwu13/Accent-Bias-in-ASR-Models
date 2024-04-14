@@ -155,9 +155,9 @@ def main():
 
     df = pd.read_csv(args.transcriptions_path, sep='\t')
 
-    df = identify_transcription_subsentences(df, args.output_path.replace('.', '_streaming_bup.'))
+    df = identify_transcription_subsentences(df, args.output_path.replace('.tsv', '_streaming_bup.tsv'))
     # Save subsentences to temp location just incase
-    df.to_csv(args.output_path.replace('.', '_tmp.'), sep='\t', index=False)
+    df.to_csv(args.output_path.replace('.tsv', '_tmp.tsv'), sep='\t', index=False)
 
     evaluator = Evaluator()
     df = evaluate_transcription_set(df, evaluator)

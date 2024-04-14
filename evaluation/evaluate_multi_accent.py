@@ -7,6 +7,7 @@ import numpy as np
 
 from tqdm import tqdm
 
+from utils import store_line
 from evaluator import Evaluator
 
 
@@ -77,7 +78,7 @@ def get_transcription_subsentence(sentence_1, sentence_2, transcription_tokens):
 
     sims_1 = get_subsentence_similarities(sentence_1, candidates_1)
     sims_2 = get_subsentence_similarities(sentence_2, candidates_2)
-    if (sims_1 is None) or (sims_1 is None):
+    if (sims_1 is None) or (sims_2 is None):
         print(f'Failed Call: SENTENCE_1: "{sentence_1}", SENTENCE_2: "{sentence_2}", TRANSCRIPTION_TOKENS: {transcription_tokens}')
         return '', ''
 
@@ -85,7 +86,7 @@ def get_transcription_subsentence(sentence_1, sentence_2, transcription_tokens):
     return candidates_1[max_sim_splt], candidates_2[max_sim_splt]
 
 
-def identify_transcription_subsentences(df):
+def identify_transcription_subsentences(df, backup_path):
     transcription_subsentence_a = []
     transcription_subsentence_b = []
 
@@ -104,6 +105,8 @@ def identify_transcription_subsentences(df):
         else:
             transcription_subsentence_a.append(trsn_sub_1)
             transcription_subsentence_b.append(trsn_sub_2)
+
+        store_line(f'SENTENCE_1: "{trsn_sub_1}", SENCENCE_2: "{trsn_sub_2}"', backup_path)
 
     df['transcription_subsentence_a'] = transcription_subsentence_a
     df['transcription_subsentence_b'] = transcription_subsentence_b
@@ -152,7 +155,7 @@ def main():
 
     df = pd.read_csv(args.transcriptions_path, sep='\t')
 
-    df = identify_transcription_subsentences(df)
+    df = identify_transcription_subsentences(df, args.output_path.replace('.', '_streaming_bup.'))
     # Save subsentences to temp location just incase
     df.to_csv(args.output_path.replace('.', '_tmp.'), sep='\t', index=False)
 

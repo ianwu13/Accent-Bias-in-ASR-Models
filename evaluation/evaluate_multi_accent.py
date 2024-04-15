@@ -4,71 +4,23 @@ import time
 import argparse
 import pandas as pd
 import numpy as np
-
 from tqdm import tqdm
+
+from sentence_transformers import SentenceTransformer, util
+# pip install -U sentence-transformers
 
 from utils import store_line
 from evaluator import Evaluator
 
 
-API_URL = "https://api-inference.huggingface.co/models/sentence-transformers/all-MiniLM-L6-v2"
-HEADERS = {"Authorization": ""}
+MODEL = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
 
 
 def get_subsentence_similarities(reference, candidates: list):
-    payload = {
-        "inputs": {
-            "source_sentence": reference,
-            "sentences": candidates
-            }
-        }
+    embedding_r = MODEL.encode(reference, convert_to_tensor=True)
+    embedding_c = MODEL.encode(candidates, convert_to_tensor=True)
 
-    response = requests.post(API_URL, headers=HEADERS, json=payload)
-    
-    # Handle potential API failure/rate limiting
-    if response.status_code != 200:
-        time.sleep(60)
-        response = requests.post(API_URL, headers=HEADERS, json=payload)
-        if response.status_code != 200:
-            return None
-
-    return response.json()
-
-
-# OLD VERSION
-# def get_transcription_subsentence(sentence, transcription_tokens, front: bool):
-#     if front:
-#         candidates = [' '.join(transcription_tokens[:i]) for i in range(1, len(transcription_tokens)+1)]
-#     else:
-#         candidates = [' '.join(transcription_tokens[i:]) for i in range(len(transcription_tokens))]
-
-#     sims = get_subsentence_similarities(sentence, candidates)
-
-#     # handle bad request
-#     if sims is None:
-#         print(f'Failed Call: SENTENCE: "{sentence}", CANDIDATES: {candidates}')
-#         return ''
-
-#     return candidates[np.argmax(sims)]
-
-
-# OLD VERSION
-# def transcription_subsentence_index(sentence, transcription_tokens, front: bool):
-#     sent_len = len(sentence.split())
-#     if front:
-#         candidates = [' '.join(transcription_tokens[:i]) for i in range(sent_len-SPREAD, sent_len+SPREAD)]
-#     else:
-#         candidates = [' '.join(transcription_tokens[-i:]) for i in range(sent_len-SPREAD, sent_len+SPREAD)]
-#         print(candidates)
-
-#     sims = get_subsentence_similarities(sentence, candidates)
-
-#     # handle bad request
-#     if sims is None:
-#         print(f'Failed Call: SENTENCE: "{sentence}", CANDIDATES: {candidates}')
-#         return ''
-
-#     return np.argmax(sims)
+    return util.pytorch_cos_sim(embedding_r, embedding_c)[0].tolist()
 
 
 def get_transcription_subsentence(sentence_1, sentence_2, transcription_tokens):
@@ -78,9 +30,6 @@ def get_transcription_subsentence(sentence_1, sentence_2, transcription_tokens):
 
     sims_1 = get_subsentence_similarities(sentence_1, candidates_1)
     sims_2 = get_subsentence_similarities(sentence_2, candidates_2)
-    if (sims_1 is None) or (sims_2 is None):
-        print(f'Failed Call: SENTENCE_1: "{sentence_1}", SENTENCE_2: "{sentence_2}", TRANSCRIPTION_TOKENS: {transcription_tokens}')
-        return '', ''
 
     max_sim_splt = np.argmax([s1 + s2 for s1, s2 in zip(sims_1, sims_2)])
     return candidates_1[max_sim_splt], candidates_2[max_sim_splt]
@@ -144,25 +93,20 @@ def main():
     parser = argparse.ArgumentParser(description='Script to evaluate performance of a model across different accents')
     
     parser.add_argument('--transcriptions_path', type=str, help='Path to tsv file containing transcriptions')
-    parser.add_argument('--api_token', type=str, help='Hugging Face API token to get sentence similarity')
-    parser.add_argument('--output_path', type=str, help='Directory to write results to')
+    parser.add_argument('--out_path', type=str, help='Directory to write results to')
     
     args = parser.parse_args()
 
-    # Set authorization
-    global HEADERS
-    HEADERS["Authorization"] = f"Bearer {args.api_token}"
-
     df = pd.read_csv(args.transcriptions_path, sep='\t')
 
-    df = identify_transcription_subsentences(df, args.output_path.replace('.tsv', '_streaming_bup.tsv'))
+    df = identify_transcription_subsentences(df, args.out_path.replace('.tsv', '_streaming_bup.tsv'))
     # Save subsentences to temp location just incase
-    df.to_csv(args.output_path.replace('.tsv', '_tmp.tsv'), sep='\t', index=False)
+    df.to_csv(args.out_path.replace('.tsv', '_tmp.tsv'), sep='\t', index=False)
 
     evaluator = Evaluator()
     df = evaluate_transcription_set(df, evaluator)
 
-    df.to_csv(args.output_path, sep='\t', index=False)
+    df.to_csv(args.out_path, sep='\t', index=False)
 
 
 if __name__ == '__main__':

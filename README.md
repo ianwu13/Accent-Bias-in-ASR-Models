@@ -1,6 +1,8 @@
 # Accent-Bias-in-ASR-Models
 
-TODO: GENERAL DESCRIPTION
+As Automatic speech recognition (ASR) systems become more and more ubiquitous in our daily lives (smart home assistants, automatic closed captioning), the downstream effects of biased models becomes more and more pronounced. ASR models have already been shown to be biased in terms of accent, dialect, and gender, but these studies are generally conducted on overly simplified academic datasets, while most of the applied uses of these models occur in a much noisier setting, e.g., audio with multiple speakers/accents. To this end, our work investigates how the presence of multiple accents in a single audio clip can affect the transcription quality on different accent groups, potentially amplifying bias. We evaluate transcription quality on both single-accent and multi-accent audio using word error rate, character error rate, and Jaro-Winkler distance. Our findings affirm previous works showing clear and consistent bias in single-accent audio, but interestingly show that there is not a significant effect on transcription quality when these models are applied to multi-accent audio.
+
+The full paper can be found [here](https://github.com/ianwu13/Accent-Bias-in-ASR-Models/blob/main/Preferential_Accent_Bias_Automatic_Speech_Recognition_Models.pdf)
 
 ***
 
@@ -48,7 +50,7 @@ pip install hydra-core pytorch-lightning lhotse jiwer pyannote.audio webdataset 
 ## Evaluation
 
 ### `evaluate_single_accent.py`
-TODO
+Evaluates sample wise transcription quality in terms of wer, cer, bertscore_precision, bertscore_recall, bertscore_f1, and jaro_winkler distance. The transcriptions to be evaluated are specified as a path to a .tsv file and the model to use for calculating BERTScore can also be specified if necessary.
 
 ### `evaluate_multi_accent.py`
-TODO
+Evaluates transcription quality for multi-accent audio. This script does not calculate BERTScore metrics due to their high computational cost.
